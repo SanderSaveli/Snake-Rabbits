@@ -11,14 +11,17 @@ namespace SanderSaveli.Snake
         [SerializeField] private GameLoop _gameLoop;
         [Header("Prefabs")]
         [SerializeField] private SnakeHead _snakeHead;
+        [SerializeField] private SnakeTail _snakeSegment;
         private SignalBus _signalBus;
         private DiContainer _container;
+        private LevelConfig _levelConfig;
 
         [Inject]
-        public void Construct(SignalBus signalBus, DiContainer container)
+        public void Construct(SignalBus signalBus, DiContainer container, LevelConfig levelConfig)
         {
             _signalBus = signalBus;
             _container = container;
+            _levelConfig = levelConfig;
         }
 
         private void Start()
@@ -48,8 +51,10 @@ namespace SanderSaveli.Snake
         private void InitSnake()
         {
             SnakeHead snake = _container.InstantiatePrefabForComponent<SnakeHead>(_snakeHead);
-            Cell snakeStartCell = _gameField[_gameField.FieldWidth /2, _gameField.FieldHeight/2];
+            Cell snakeStartCell = _gameField[_gameField.FieldWidth / 2, _gameField.FieldHeight / 2];
             snake.SetStartCell(snakeStartCell);
+            snake.Direction = _levelConfig.startDirection;
+            snake.SetStartTailParts();
         }
     }
 }

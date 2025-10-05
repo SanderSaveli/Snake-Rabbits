@@ -1,14 +1,19 @@
 using SanderSaveli.Snake;
 using System;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 
 public class SnakeHead : TickableCellEntity
 {
-    public Vector2Int HeadPosition => new Vector2Int(_currentCell.X, _currentCell.Y);
+    public Vector2Int HeadPosition => new Vector2Int(CurrentCell.X, CurrentCell.Y);
     public Direction Direction { get; set; }
-    private Cell _currentCell;
+    public Action<Cell> OnCellChange { get; set; }
+    public Cell CurrentCell;
+
+    [SerializeField] private SnakeMoveHandler _moveHandler;
+    [SerializeField] private TailManager _tailManager;
     private SignalBus _signalBus;
 
     [Inject]
@@ -34,13 +39,20 @@ public class SnakeHead : TickableCellEntity
 
     public override void SetStartCell(Cell cell)
     {
-        _currentCell = cell;
-        transform.position = GameField.CellToWorld(cell.X, cell.Y) + new Vector3(0, 0, -1);
+        CurrentCell = cell;
+    }
+
+    public void SetStartTailParts()
+    {
+        _tailManager.InitSnakeTail(this);
     }
 
     public override void Tick()
     {
-        Vector2Int nextCellPos = HeadPosition + DirectionToVector2(Direction);
+        _tailManager.MoveTailParts();
+
+        Direction = _moveHandler.GetActualDirection();
+        Vector2Int nextCellPos = HeadPosition + DirectionTool.DirectionToVector2(Direction);
         if(!GameField.IsInBounds(nextCellPos))
         {
             Die();
@@ -57,28 +69,8 @@ public class SnakeHead : TickableCellEntity
                 return;
             }
         }
-
-        _currentCell.SetEntity(null);
         nextCell.SetEntity(this);
-        _currentCell = nextCell;
-
-        transform.position = GameField.CellToWorld(nextCellPos) + new Vector3(0, 0, -1);
-    }
-
-    public Vector2Int DirectionToVector2(Direction direction)
-    {
-        switch (direction)
-        {
-            case Direction.Up:
-                return Vector2Int.up;
-            case Direction.Down:
-                return Vector2Int.down;
-            case Direction.Left:
-                return Vector2Int.left;
-            case Direction.Right:
-                return Vector2Int.right;
-            default:
-                throw new NotImplementedException($"There is no case for Direction {direction}");
-        }
+        CurrentCell = nextCell;
+        OnCellChange?.Invoke(nextCell);
     }
 }

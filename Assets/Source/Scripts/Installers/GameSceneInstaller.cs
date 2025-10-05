@@ -14,9 +14,11 @@ public class GameSceneInstaller : MonoInstaller
 
         Container.Bind<GameplayConfig>().FromInstance(_configProvider.GameplayConfig).AsSingle().NonLazy();
         Container.Bind<GraficConfig>().FromInstance(_configProvider.GraficConfig).AsSingle().NonLazy();
+        Container.Bind<LevelConfig>().FromInstance(_configProvider.LevelConfig).AsSingle().NonLazy();
         Container.Bind<GameField>().FromInstance(_gameField).AsSingle().NonLazy();
         Container.Bind<GameLoop>().FromInstance(_gameLoop).AsSingle().NonLazy();
 
         Container.DeclareSignal<SignalGameEnd>();
+        Container.DeclareSignal<SignalInputChangeDirection>();
     }
 }

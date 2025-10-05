@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 406966429}
   - component: {fileID: 406966428}
   - component: {fileID: 406966432}
+  - component: {fileID: 406966433}
   m_Layer: 0
   m_Name: Gameplay
   m_TagString: Untagged
@@ -169,8 +170,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0c2ccf640926dd4a8bacbd8a14e0e44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fieldWith: 11
-  _fieldHeight: 16
   _fieldGenerator: {fileID: 406966428}
 --- !u!4 &406966430
 Transform:
@@ -202,6 +201,7 @@ MonoBehaviour:
   _gameField: {fileID: 406966429}
   _gameLoop: {fileID: 406966432}
   _snakeHead: {fileID: 7830498143240092408, guid: 932e2fac0cb807246b618d8b4bcc23c9, type: 3}
+  _snakeSegment: {fileID: 1679701243431225312, guid: b8537962f535e1444b178ad1e61c9534, type: 3}
 --- !u!114 &406966432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,6 +212,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fd4a5c0352b13b04aaae6470647ae187, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &406966433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 406966427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1c4ed9f809f3bc4181a3e9b2c858dd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &519420028
@@ -606,7 +618,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -100
   m_TargetDisplay: 0
 --- !u!224 &1237301850
 RectTransform:
@@ -955,6 +967,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _graficConfig: {fileID: 11400000, guid: 99963b170411c6d438292b469d5b0cff, type: 2}
   _gameplayConfig: {fileID: 11400000, guid: eb1850af55fbe6049936b05a8af6a86b, type: 2}
+  _levelConfig: {fileID: 11400000, guid: 641ef38f282a404448d22fb880b6fc22, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

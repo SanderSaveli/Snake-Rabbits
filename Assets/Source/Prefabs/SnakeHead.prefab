@@ -11,6 +11,9 @@ GameObject:
   - component: {fileID: 302078049950523559}
   - component: {fileID: 903992969206700274}
   - component: {fileID: 7830498143240092408}
+  - component: {fileID: 1781661716400187077}
+  - component: {fileID: 5881135428278222688}
+  - component: {fileID: 2902612011452275270}
   m_Layer: 0
   m_Name: SnakeHead
   m_TagString: Untagged
@@ -98,3 +101,45 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TickOrder: 0
+  _moveHandler: {fileID: 5881135428278222688}
+  _tailManager: {fileID: 2902612011452275270}
+--- !u!114 &1781661716400187077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2007274943699065704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b35f27efc2ebdfc44b67bc04422b1d56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _head: {fileID: 7830498143240092408}
+--- !u!114 &5881135428278222688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2007274943699065704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f11b77eed4788b4da7f81a743556baa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _snakeHead: {fileID: 7830498143240092408}
+--- !u!114 &2902612011452275270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2007274943699065704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 467b80a2f1a3dfa4892a920601d361ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TailsParts: []
+  _snakeTail: {fileID: 1679701243431225312, guid: b8537962f535e1444b178ad1e61c9534, type: 3}

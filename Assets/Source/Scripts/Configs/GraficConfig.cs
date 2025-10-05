@@ -11,10 +11,11 @@ namespace SanderSaveli.Snake
         [SerializeField] private float _distanceBetweenCells;
         [Header("Cell colors")]
         [SerializeField] private Color _cellEvenColor = Color.white; 
-        [SerializeField] private Color _cellOddColor = Color.white; 
-
+        [SerializeField] private Color _cellOddColor = Color.white;
+        [SerializeField] private float _entityLayer;
         public Color CellEvenColor => _cellEvenColor;
         public Color CellOddColor => _cellOddColor;
         public float DistanceBetweenCells => _distanceBetweenCells;
+        public float EntityLayer => _entityLayer;
     }
 }

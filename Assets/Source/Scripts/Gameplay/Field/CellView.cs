@@ -8,6 +8,7 @@ public class CellView : MonoBehaviour
     [SerializeField] private SpriteRenderer _spriteRenderer;
 
     private GraficConfig _graficConfig;
+    public Cell Cell;
 
     [Inject]
     public void Construct(GraficConfig graficConfig)
@@ -26,5 +27,17 @@ public class CellView : MonoBehaviour
         bool isEven = (Position.x + Position.y) % 2 == 0;
 
         _spriteRenderer.color = isEven ? _graficConfig.CellEvenColor : _graficConfig.CellOddColor;
+    }
+
+    private void Update()
+    {
+        if (Cell.IsOccupied)
+        {
+            _spriteRenderer.color = Color.gray;
+        }
+        else
+        {
+            SetColor();
+        }
     }
 }

@@ -1,5 +1,6 @@
 using SanderSaveli.Snake;
 using UnityEngine;
+using Zenject;
 
 public class GameField : MonoBehaviour
 {
@@ -11,13 +12,18 @@ public class GameField : MonoBehaviour
         set => _field.SetValue(x, y, value);
     }
 
-    [Min(1)]
-    [SerializeField] private int _fieldWith;
-    [Min(2)]
-    [SerializeField] private int _fieldHeight;
     [SerializeField] private FieldGenerator _fieldGenerator;
 
     private Matrix<Cell> _field;
+    private int _fieldWith;
+    private int _fieldHeight;
+
+    [Inject]
+    public void Construct(LevelConfig levelConfig)
+    {
+        _fieldWith = levelConfig.fieldWidth;
+        _fieldHeight = levelConfig.fieldHeight;
+    }
 
     public void EnsureField()
     {
@@ -38,7 +44,7 @@ public class GameField : MonoBehaviour
 
     public bool IsInBounds(int x, int y)
     {
-        return x > 0 && x< _fieldWith && y > 0 && y < _fieldHeight;
+        return x >= 0 && x< _fieldWith && y >= 0 && y < _fieldHeight;
     }
 
     private void CreateField()
