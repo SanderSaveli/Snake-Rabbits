@@ -8,6 +8,12 @@ public class Matrix<T>
     public int Width { get; private set; }
     public int Height { get; private set; }
 
+    public T this[int x, int y]
+    {
+        get => GetValue(x, y);
+        set => SetValue(x, y, value);
+    }
+
     public Matrix(int width, int height)
     {
         if (width <= 0 || height <= 0)

@@ -5,49 +5,30 @@ namespace SanderSaveli.Snake
 {
     public class FieldGenerator : MonoBehaviour
     {
-        [SerializeField] private GameField _gameField;
         [SerializeField] private CellView _cellView;
         [SerializeField] private RectTransform _fieldBounds;
         [SerializeField] private Transform _fieldParent;
 
-        [Space]
-        [Min(0)][SerializeField] private float _distanceBetweenCells = 1f;
 
         private float _cellWidth;
         private float _cellHeight;
+        private float _distanceBetweenCells;
         private DiContainer _container;
 
 
         [Inject]
-        public void Construct(DiContainer container)
+        public void Construct(DiContainer container, GraficConfig graficConfig)
         {
             _container = container;
+            _distanceBetweenCells = graficConfig.DistanceBetweenCells;
         }
 
-        private void Start()
+        public Matrix<CellView> GenerateField(int width, int height)
         {
             CacheCellSize();
-            GenerateField();
-        }
-
-        private void CacheCellSize()
-        {
-            Renderer renderer = _cellView.GetComponent<Renderer>();
-
-            _cellWidth = renderer.bounds.size.x;
-            _cellHeight = renderer.bounds.size.y;
-        }
-
-        public void GenerateField()
-        {
-            int width = _gameField.FieldWidth;
-            int height = _gameField.FieldHeight;
-
             Vector2 fieldSize = CalculateFieldSize(width, height);
 
-
-            if (!GetBoundsScreenOffsetsAndCenter(_fieldBounds, out float leftPx, out float rightPx, out float topPx, out float bottomPx, out Vector3 boundsCenterWorld))
-                return;
+            GetBoundsScreenOffsetsAndCenter(_fieldBounds, out float leftPx, out float rightPx, out float topPx, out float bottomPx, out Vector3 boundsCenterWorld);
 
             Camera cam = Camera.main;
             cam.orthographic = true;
@@ -63,8 +44,17 @@ namespace SanderSaveli.Snake
 
             ClearChildren(_fieldParent);
             Vector3 originLocal = CalculateFieldOrigin(fieldSize);
-            SpawnCells(width, height, originLocal, _fieldParent);
+            return SpawnCells(width, height, originLocal, _fieldParent);
         }
+
+        private void CacheCellSize()
+        {
+            Renderer renderer = _cellView.GetComponent<Renderer>();
+
+            _cellWidth = renderer.bounds.size.x;
+            _cellHeight = renderer.bounds.size.y;
+        }
+
 
         private Vector2 CalculateFieldSize(int width, int height)
         {
@@ -82,23 +72,34 @@ namespace SanderSaveli.Snake
             return new Vector3(ox, oy, 0f);
         }
 
-        private void SpawnCells(int width, int height, Vector3 originLocal, Transform parent)
+        private Matrix<CellView> SpawnCells(int width, int height, Vector3 originLocal, Transform parent)
         {
             float stepX = _cellWidth + _distanceBetweenCells;
             float stepY = _cellHeight + _distanceBetweenCells;
+            Matrix<CellView> matrix = new Matrix<CellView>(width, height);
 
             for (int x = 0; x < width; x++)
+            {
                 for (int y = 0; y < height; y++)
                 {
                     Vector3 localPos = originLocal + new Vector3(x * stepX, y * stepY, 0f);
-                    CellView inst = _container.InstantiatePrefabForComponent<CellView>(_cellView, parent);
-                    inst.SetPosition(new Vector2Int(x,y));
-                    inst.transform.localPosition = localPos;
-                    inst.transform.localRotation = Quaternion.identity;
+                    matrix[x, y] = SpawnCell(localPos, new Vector2Int(x, y));
                 }
+            }
+
+            return matrix;
         }
 
-        private bool GetBoundsScreenOffsetsAndCenter(RectTransform bounds, out float leftPx, out float rightPx, out float topPx, out float bottomPx, out Vector3 centerWorld)
+        private CellView SpawnCell(Vector3 localPos, Vector2Int coordinate)
+        {
+            CellView inst = _container.InstantiatePrefabForComponent<CellView>(_cellView, _fieldParent);
+            inst.SetPosition(coordinate);
+            inst.transform.localPosition = localPos;
+            inst.transform.localRotation = Quaternion.identity;
+            return inst;
+        }
+
+        private void GetBoundsScreenOffsetsAndCenter(RectTransform bounds, out float leftPx, out float rightPx, out float topPx, out float bottomPx, out Vector3 centerWorld)
         {
             Canvas canvas = bounds.GetComponentInParent<Canvas>();
             Camera canvasCam = (canvas != null && canvas.renderMode != RenderMode.ScreenSpaceOverlay) ? canvas.worldCamera : null;
@@ -114,7 +115,6 @@ namespace SanderSaveli.Snake
             topPx = Screen.height - trScreen.y;
 
             centerWorld = (corners[0] + corners[2]) * 0.5f;
-            return true;
         }
 
         private float ComputeRequiredOrthoSize(Vector2 fieldSize, float leftPx, float rightPx, float topPx, float bottomPx, Camera cam)
