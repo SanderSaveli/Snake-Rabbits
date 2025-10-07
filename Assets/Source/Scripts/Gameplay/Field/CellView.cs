@@ -1,4 +1,5 @@
 using SanderSaveli.Snake;
+using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 
@@ -6,6 +7,7 @@ public class CellView : MonoBehaviour
 {
     public Vector2Int Position { get; private set; }
     [SerializeField] private SpriteRenderer _spriteRenderer;
+    [SerializeField] private bool _isDebug;
 
     private GraficConfig _graficConfig;
     public Cell Cell;
@@ -31,6 +33,11 @@ public class CellView : MonoBehaviour
 
     private void Update()
     {
+        if (!_isDebug)
+        {
+            return;
+        }
+
         if (Cell.IsOccupied)
         {
             _spriteRenderer.color = Color.gray;

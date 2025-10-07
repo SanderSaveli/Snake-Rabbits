@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
@@ -7,12 +8,15 @@ namespace SanderSaveli.Snake
     public class TailManager : MonoBehaviour
     {
         public List<SnakeTail> TailsParts;
+        public int TailLength => TailsParts.Count;
+        public Action OnChangeTailCount;
 
         [SerializeField] private SnakeTail _snakeTail;
         private SnakeHead _head;
         private LevelConfig _levelConfig;
         private DiContainer _container;
         private GameField _gameField;
+        private Cell _lastPassedCell;
 
         [Inject]
         public void Construct(DiContainer container, LevelConfig levelConfig, GameField gameField)
@@ -48,7 +52,16 @@ namespace SanderSaveli.Snake
                 PreviousCell = tailCell;
             }
 
+            _lastPassedCell = PreviousCell;
             PreviousCell.SetEntity(null);
+        }
+
+        public void AddTailPart()
+        {
+            Cell curentCell = _lastPassedCell;
+            TailsParts.Add(SpawnTail(curentCell));
+
+            OnChangeTailCount?.Invoke();
         }
 
         private SnakeTail SpawnTail(Cell cell)

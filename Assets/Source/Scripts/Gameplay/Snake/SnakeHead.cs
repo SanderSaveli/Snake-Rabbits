@@ -15,6 +15,7 @@ public class SnakeHead : TickableCellEntity
     [SerializeField] private SnakeMoveHandler _moveHandler;
     [SerializeField] private TailManager _tailManager;
     private SignalBus _signalBus;
+    private bool _isNeedSpawnTail;
 
     [Inject]
     public void Construct(SignalBus signalBus)
@@ -26,6 +27,14 @@ public class SnakeHead : TickableCellEntity
     {
         IsKillSnake = true;
         snake.Die();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            _isNeedSpawnTail = true;
+        }
     }
 
     public override Type GetEntityType() => typeof(SnakeHead);
@@ -50,6 +59,12 @@ public class SnakeHead : TickableCellEntity
     public override void Tick()
     {
         _tailManager.MoveTailParts();
+
+        if (_isNeedSpawnTail)
+        {
+            _tailManager.AddTailPart();
+            _isNeedSpawnTail = false;
+        }
 
         Direction = _moveHandler.GetActualDirection();
         Vector2Int nextCellPos = HeadPosition + DirectionTool.DirectionToVector2(Direction);

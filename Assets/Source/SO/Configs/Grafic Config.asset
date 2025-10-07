@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a735ca00e6045e04eaa4dfeaee0578e7, type: 3}
   m_Name: Grafic Config
   m_EditorClassIdentifier: 
+  _distanceBetweenCells: 0
   _cellEvenColor: {r: 0.43137255, g: 0.8117647, b: 0.14117648, a: 1}
   _cellOddColor: {r: 0.5686275, g: 0.85882354, b: 0.22745098, a: 1}
+  _entityLayer: -1
