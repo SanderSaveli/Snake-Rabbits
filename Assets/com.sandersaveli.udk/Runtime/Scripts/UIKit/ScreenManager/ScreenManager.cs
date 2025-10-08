@@ -28,6 +28,7 @@ namespace SanderSaveli.UDK.UI
         [SerializeField] protected List<ScreenParams<ScreenType>> Screens = new();
         [SerializeField] protected List<PopupParams<PopupType>> Popups = new();
         [SerializeField] protected ScreenType _startScreen;
+        [SerializeField] protected bool _isShowScreenAtStart;
 
         protected UiScreen _openedScreen;
         protected UiScreen _openedPopup;
@@ -36,8 +37,11 @@ namespace SanderSaveli.UDK.UI
 
         private void Start()
         {
-            _openedScreen = GetScreen(_startScreen).Screen;
-            _openedScreen.ShowImmediately();
+            if(_isShowScreenAtStart)
+            {
+                _openedScreen = GetScreen(_startScreen).Screen;
+                _openedScreen.ShowImmediately();
+            }
         }
 
         public void OpenScreen(ScreenType screenType)

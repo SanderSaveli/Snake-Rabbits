@@ -79,12 +79,15 @@ namespace CustomText
 
         private void ApplyMaterialSetting()
         {
-            _selectedTextMaterial = _textMaterial;
-            if (MaterialSettings.Instance == null) return;
-            var material = MaterialSettings.Instance.Materials.Find(t => t.MaterialType.Equals(_textMaterial));
-            if (material != null)
+            if(_selectedTextMaterial != _textMaterial)
             {
-                fontSharedMaterial = material.Material;
+                _selectedTextMaterial = _textMaterial;
+                if (MaterialSettings.Instance == null) return;
+                var material = MaterialSettings.Instance.Materials.Find(t => t.MaterialType.Equals(_textMaterial));
+                if (material != null)
+                {
+                    fontSharedMaterial = material.Material;
+                }
             }
         }
 

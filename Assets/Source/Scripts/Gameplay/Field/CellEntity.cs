@@ -15,7 +15,6 @@ public abstract class CellEntity : MonoBehaviour
     public Type EntityType => GetEntityType();
 
     public abstract void SetStartCell(Cell cell);
-
     public abstract void CollideWithHead(SnakeHead snake, out bool IsKillSnake);
     public abstract Type GetEntityType();
 }

@@ -29,14 +29,6 @@ public class SnakeHead : TickableCellEntity
         snake.Die();
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            _isNeedSpawnTail = true;
-        }
-    }
-
     public override Type GetEntityType() => typeof(SnakeHead);
 
     public void Die()
@@ -44,6 +36,11 @@ public class SnakeHead : TickableCellEntity
         Time.timeScale = 0;
         Debug.Log("Snake Die!");
         _signalBus.Fire(new SignalGameEnd(GameEndStatus.Lose_collide));
+    }
+
+    public void AddLength()
+    {
+        _isNeedSpawnTail = true;
     }
 
     public override void SetStartCell(Cell cell)
