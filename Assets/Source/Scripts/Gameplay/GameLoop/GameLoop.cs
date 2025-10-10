@@ -69,7 +69,6 @@ namespace SanderSaveli.Snake
             while (!_isGameEnd)
             {
                 yield return new WaitForSeconds(TickTime);
-                Debug.Log("Tick!");
                 Tick();
             }
         }

@@ -18,6 +18,7 @@ namespace SanderSaveli.Snake
             _signalBus.Subscribe<SignalInputOpenGameScreen>(HandleOpenScreen);
             _signalBus.Subscribe<SignalInputOpenGamePopup>(HandleOpenPopup);
             _signalBus.Subscribe<SignalInputClosePopup>(ClosePopup);
+            _signalBus.Subscribe<SignalInputCloseScreen>(CloseOpenedWindow);
         }
 
         private void OnDisable()
@@ -25,6 +26,7 @@ namespace SanderSaveli.Snake
             _signalBus.Unsubscribe<SignalInputOpenGameScreen>(HandleOpenScreen);
             _signalBus.Unsubscribe<SignalInputOpenGamePopup>(HandleOpenPopup);
             _signalBus.Unsubscribe<SignalInputClosePopup>(ClosePopup);
+            _signalBus.Unsubscribe<SignalInputCloseScreen>(CloseOpenedWindow);
         }
 
         private void HandleOpenScreen(SignalInputOpenGameScreen ctx) =>

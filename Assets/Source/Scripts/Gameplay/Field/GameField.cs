@@ -1,4 +1,6 @@
 using SanderSaveli.Snake;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Zenject;
 
@@ -42,10 +44,13 @@ public class GameField : MonoBehaviour
     public bool IsInBounds(Vector2Int pos) =>
         IsInBounds(pos.x, pos.y);
 
-    public bool IsInBounds(int x, int y)
-    {
-        return x >= 0 && x< _fieldWith && y >= 0 && y < _fieldHeight;
-    }
+    public bool IsInBounds(int x, int y) =>
+        x >= 0 && x< _fieldWith && y >= 0 && y < _fieldHeight;
+
+    public List<Cell> GetFreeCell() =>
+        _field.AllValues()
+                .Where(c => !c.IsOccupied)
+                .ToList();
 
     private void CreateField()
     {

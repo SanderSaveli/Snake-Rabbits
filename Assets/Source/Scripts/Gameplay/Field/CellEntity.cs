@@ -4,6 +4,7 @@ using Zenject;
 
 public abstract class CellEntity : MonoBehaviour
 {
+    public Cell CurrentCell { get; private set; }
     protected GameField GameField;
 
     [Inject]
@@ -14,7 +15,13 @@ public abstract class CellEntity : MonoBehaviour
 
     public Type EntityType => GetEntityType();
 
-    public abstract void SetStartCell(Cell cell);
+    public virtual void SetStartCell(Cell cell)
+    {
+        CurrentCell = cell;
+        cell.SetEntity(this);
+        transform.position = cell.WorldPosition;
+    }
+
     public abstract void CollideWithHead(SnakeHead snake, out bool IsKillSnake);
     public abstract Type GetEntityType();
 }

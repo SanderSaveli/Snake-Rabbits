@@ -11,6 +11,7 @@ namespace SanderSaveli.Snake
 
             #region Signals
             Container.DeclareSignal<SignalInputClosePopup>();
+            Container.DeclareSignal<SignalInputCloseScreen>();
             #endregion
         }
     }

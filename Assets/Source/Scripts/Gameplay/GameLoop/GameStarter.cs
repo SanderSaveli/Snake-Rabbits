@@ -12,6 +12,7 @@ namespace SanderSaveli.Snake
         [Header("Prefabs")]
         [SerializeField] private SnakeHead _snakeHead;
         [SerializeField] private SnakeTail _snakeSegment;
+        [SerializeField] private AppleSpawner _appleSpawner;
         private SignalBus _signalBus;
         private DiContainer _container;
         private LevelConfig _levelConfig;
@@ -30,6 +31,7 @@ namespace SanderSaveli.Snake
             _gameField.EnsureField();
             InitSnake();
             _gameLoop.StartGameLoop();
+            _appleSpawner.SpawnApple();
         }
 
         private void OnEnable()

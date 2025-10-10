@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Matrix<T>
@@ -52,6 +53,9 @@ public class Matrix<T>
     }
 
     public void SetValue(Vector2Int pos, T value) => SetValue(pos.x, pos.y, value);
+
+    public List<T> AllValues() =>
+        _matrix.SelectMany(row => row).ToList();
 
     private void ValidateIndices(int x, int y)
     {

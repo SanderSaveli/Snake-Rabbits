@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Zenject;
 
 namespace SanderSaveli.Snake
 {
@@ -12,6 +11,13 @@ namespace SanderSaveli.Snake
         [SerializeField] private Button _resume;
         [SerializeField] private Button _restart;
         [SerializeField] private Button _exitToMenu;
+        private SignalBus _signalBus;
+
+        [Inject]
+        public void Construct(SignalBus signalBus)
+        {
+            _signalBus = signalBus;
+        }
 
         protected override void SubscribeToEvents()
         {
@@ -31,7 +37,7 @@ namespace SanderSaveli.Snake
 
         private void HandleResume()
         {
-            
+            _signalBus.Fire(new SignalInputCloseScreen());
         }
 
         private void HandleRestart()
