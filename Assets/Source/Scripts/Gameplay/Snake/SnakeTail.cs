@@ -1,14 +1,10 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace SanderSaveli.Snake
 {
     public class SnakeTail : CellEntity
     {
         public Action<Cell> OnChangeCell;
-        public Cell CurrentCell;
 
         public void ChangeCell(Cell cell)
         {
@@ -26,11 +22,6 @@ namespace SanderSaveli.Snake
         public override Type GetEntityType()
         {
             return typeof(SnakeTail);
-        }
-
-        public override void SetStartCell(Cell cell)
-        {
-            CurrentCell = cell;
         }
     }
 }

@@ -44,7 +44,7 @@ namespace CustomText
         {
             ApplyTextStyleSetting();
             ApplyColorSetting();
-            ApplyMaterialSetting();
+            //ApplyMaterialSetting();
         }
 
         private void ApplyTextStyleSetting()

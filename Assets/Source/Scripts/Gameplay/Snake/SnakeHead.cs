@@ -10,7 +10,6 @@ public class SnakeHead : TickableCellEntity
     public Vector2Int HeadPosition => new Vector2Int(CurrentCell.X, CurrentCell.Y);
     public Direction Direction { get; set; }
     public Action<Cell> OnCellChange { get; set; }
-    public Cell CurrentCell;
 
     [SerializeField] private SnakeMoveHandler _moveHandler;
     [SerializeField] private TailManager _tailManager;
@@ -33,19 +32,12 @@ public class SnakeHead : TickableCellEntity
 
     public void Die()
     {
-        Time.timeScale = 0;
-        Debug.Log("Snake Die!");
         _signalBus.Fire(new SignalGameEnd(GameEndStatus.Lose_collide));
     }
 
     public void AddLength()
     {
         _isNeedSpawnTail = true;
-    }
-
-    public override void SetStartCell(Cell cell)
-    {
-        CurrentCell = cell;
     }
 
     public void SetStartTailParts()

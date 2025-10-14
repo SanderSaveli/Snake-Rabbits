@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Zenject;
 
@@ -42,12 +41,12 @@ namespace SanderSaveli.Snake
 
         private void HandleRestart()
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            _signalBus.Fire(new SignalInputAction(InputActionType.RestartScene));
         }
 
         private void HandleExitToMenu()
         {
-
+            _signalBus.Fire(new SignalInputAction(InputActionType.LoadMenu));
         }
     }
 }

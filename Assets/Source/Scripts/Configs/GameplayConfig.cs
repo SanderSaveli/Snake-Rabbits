@@ -10,6 +10,10 @@ namespace SanderSaveli.Snake
         [Min(0)]
         [SerializeField] private float _ticksPerSecond = 1f;
 
+        [Space]
+        [SerializeField] private int _carrotHealth = 40;
+
         public float TickTime => 1 / _ticksPerSecond;
+        public int CarrotHealth => _carrotHealth;
     }
 }

@@ -7,12 +7,17 @@ namespace SanderSaveli.Snake
 {
     public class GameStarter : MonoBehaviour
     {
+        [Header("Components")]
         [SerializeField] private GameField _gameField;
         [SerializeField] private GameLoop _gameLoop;
+        [SerializeField] private AppleSpawner _appleSpawner;
+        [SerializeField] private ObstracleSpawner _obstacleSpawner;
+        [SerializeField] private CarrotSpawner _carrotSpawner;
+
         [Header("Prefabs")]
         [SerializeField] private SnakeHead _snakeHead;
         [SerializeField] private SnakeTail _snakeSegment;
-        [SerializeField] private AppleSpawner _appleSpawner;
+
         private SignalBus _signalBus;
         private DiContainer _container;
         private LevelConfig _levelConfig;
@@ -30,8 +35,10 @@ namespace SanderSaveli.Snake
             Time.timeScale = 1;
             _gameField.EnsureField();
             InitSnake();
-            _gameLoop.StartGameLoop();
             _appleSpawner.SpawnApple();
+            _obstacleSpawner.SpawnObstracles();
+            _carrotSpawner.SpawnCarrot();
+            _gameLoop.StartGameLoop();
         }
 
         private void OnEnable()
