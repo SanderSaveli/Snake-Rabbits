@@ -9,7 +9,6 @@ namespace SanderSaveli.Snake
         [SerializeField] private RectTransform _fieldBounds;
         [SerializeField] private Transform _fieldParent;
 
-
         private float _cellWidth;
         private float _cellHeight;
         private float _distanceBetweenCells;

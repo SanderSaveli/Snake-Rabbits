@@ -6,8 +6,8 @@ using Zenject;
 public class CellView : MonoBehaviour
 {
     public Vector2Int Position { get; private set; }
-    [SerializeField] private SpriteRenderer _spriteRenderer;
-    [SerializeField] private bool _isDebug;
+    [SerializeField] protected SpriteRenderer _spriteRenderer;
+    [SerializeField] protected bool _isDebug;
 
     private GraficConfig _graficConfig;
     public Cell Cell;
@@ -24,7 +24,7 @@ public class CellView : MonoBehaviour
         SetColor();
     }
 
-    private void SetColor()
+    protected void SetColor()
     {
         bool isEven = (Position.x + Position.y) % 2 == 0;
 
