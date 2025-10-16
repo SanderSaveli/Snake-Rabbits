@@ -41,6 +41,11 @@ namespace SanderSaveli.Pathfinding
             }
         }
 
+        public void SelectAsStart()
+        {
+            _spriteRenderer.color = Color.yellow;
+        }
+
         public void SelectAsObstracle()
         {
             _spriteRenderer.color = _obstacleColor;

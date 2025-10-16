@@ -4,15 +4,8 @@ using UnityEngine;
 
 namespace SanderSaveli.Pathfinding
 {
-    public class FourSideNeighborLockator
+    public class FourSideNeighborLockator : INeighborLocator
     {
-        private Matrix<PathNode> _matrix;
-
-        public FourSideNeighborLockator(Matrix<PathNode> matrix)
-        {
-            _matrix = matrix;
-        }
-
         public float DistanceBetween(PathNode a, PathNode b)
         {
             int deltaX = Mathf.Abs(a.Position.x - b.Position.x);
@@ -21,16 +14,16 @@ namespace SanderSaveli.Pathfinding
             return deltaX + deltaY;
         }
 
-        public List<PathNode> GetNeighbors(PathNode position)
+        public List<PathNode> GetNeighbors(PathNode position, Matrix<PathNode> matrix)
         {
             List<Vector2Int> neighbors = GetNeighborsCoordinate(position.Position);
             List<PathNode> pathNodes = new List<PathNode>();
 
             foreach (Vector2Int node in neighbors)
             {
-                if(node.x >=0  && node.y >=0 && node.x < _matrix.Width && node.y < _matrix.Height)
+                if(node.x >= 0  && node.y >= 0 && node.x < matrix.Width && node.y < matrix.Height)
                 {
-                    pathNodes.Add(_matrix[node.x, node.y]);
+                    pathNodes.Add(matrix[node.x, node.y]);
                 }
             }
 

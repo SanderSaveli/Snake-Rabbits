@@ -1,27 +1,37 @@
+using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace SanderSaveli.Pathfinding
 {
-    public class PathFinder
+    public class PathFinder<T>
     {
-        private Matrix<PathNode> _matrix;
-        private FourSideNeighborLockator _neighbourLocator;
+        public Matrix<PathNode> PathMatrix => _pathMatrix;
 
-        public PathFinder(Matrix<PathNode> matrix)
+        private Matrix<PathNode> _pathMatrix;
+        private Matrix<T> _originalMatrix;
+        private INeighborLocator _neighbourLocator;
+        private Func<T, bool> _isPassableDelegate;
+
+        public PathFinder(Matrix<T> matrix, Func<T, bool> isPassedDelegate, INeighborLocator neighborLocator)
         {
-            _matrix = matrix;
-            _neighbourLocator = new FourSideNeighborLockator(_matrix);
+            _originalMatrix = matrix;
+            _isPassableDelegate = isPassedDelegate;
+            _pathMatrix = IniPathMatrix(matrix);
+            _neighbourLocator = neighborLocator;
         }
 
-        public void SetMatrix(Matrix<PathNode> matrix)
+        public bool TryGetPath(Vector2Int from, Vector2Int to, out List<T> path)
         {
-            _matrix = matrix;
+            path = GetPath(from, to);
+            return path != null && path.Count > 0 ;
         }
 
-        public List<PathNode> GetPath(PathNode a, PathNode b)
+        public List<T> GetPath(Vector2Int from, Vector2Int to)
         {
             ClearMatrix();
-            List<PathNode> path = new List<PathNode>();
+            PathNode a = _pathMatrix.GetValue(from);
+            PathNode b = _pathMatrix.GetValue(to);
 
             List<PathNode> toSearch = new List<PathNode>() { a };
             HashSet<PathNode> processed = new HashSet<PathNode>();
@@ -32,7 +42,7 @@ namespace SanderSaveli.Pathfinding
                 toSearch.Remove(current);
                 processed.Add(current);
 
-                List<PathNode> neibhours = _neighbourLocator.GetNeighbors(current);
+                List<PathNode> neibhours = _neighbourLocator.GetNeighbors(current, PathMatrix);
 
                 foreach (PathNode neibhour in neibhours)
                 {
@@ -42,12 +52,12 @@ namespace SanderSaveli.Pathfinding
                     }
 
                     bool isProcessed = processed.Contains(neibhour);
-                    float coastToNeighbors = _neighbourLocator.DistanceBetween(current, neibhour);
+                    float costToNeighbors = _neighbourLocator.DistanceBetween(a, neibhour);
 
-                    if (!isProcessed || coastToNeighbors < neibhour.G)
+                    if (!isProcessed || costToNeighbors < neibhour.G)
                     {
                         neibhour.SetFrom(current);
-                        neibhour.SetG(coastToNeighbors);
+                        neibhour.SetG(costToNeighbors);
 
                         if (!isProcessed)
                         {
@@ -62,20 +72,23 @@ namespace SanderSaveli.Pathfinding
             {
                 return null;
             }
-            path.Add(b);
-            PathNode curr = b.ComeFrom;
-            while (curr != a)
-            {
-                if (path.Contains(curr))
-                {
-                    throw new System.Exception($"Loop expected in path! {curr.Position}");
-                }
 
-                path.Add(curr);
-                curr = curr.ComeFrom;
+            return GetPath(a, b);
+        }
+
+        private Matrix<PathNode> IniPathMatrix(Matrix<T> originalMatrix)
+        {
+            Matrix<PathNode> pathMatrix = new Matrix<PathNode>(originalMatrix.Width, originalMatrix.Height);
+            for (int x = 0; x < originalMatrix.Width; x++)
+            {
+                for (int y = 0; y < originalMatrix.Height; y++)
+                {
+                    bool isPassable = _isPassableDelegate(originalMatrix[x, y]);
+                    PathNode node = new PathNode(new Vector2Int(x, y), isPassable);
+                    pathMatrix[x, y] = node;
+                }
             }
-            path.Reverse();
-            return path;
+            return pathMatrix;
         }
 
         private PathNode GetNearest(List<PathNode> variants)
@@ -96,7 +109,7 @@ namespace SanderSaveli.Pathfinding
 
         private void ClearMatrix()
         {
-            List<PathNode> allNodes = _matrix.AllValues();
+            List<PathNode> allNodes = _pathMatrix.AllValues();
 
             foreach (PathNode node in allNodes)
             {
@@ -104,6 +117,32 @@ namespace SanderSaveli.Pathfinding
                 node.SetH(0);
                 node.SetFrom(null);
             }
+        }
+
+        private T GetOrigin(PathNode node) =>
+            _originalMatrix.GetValue(node.Position);
+
+        private List<T> GetPath(PathNode a, PathNode b)
+        {
+            List<T> path = new List<T>
+            {
+                GetOrigin(b)
+            };
+
+            PathNode curr = b.ComeFrom;
+            while (curr != a)
+            {
+                T node = GetOrigin(curr);
+                if (path.Contains(node))
+                {
+                    throw new Exception($"Loop expected in path! {curr.Position}");
+                }
+
+                path.Add(GetOrigin(curr));
+                curr = curr.ComeFrom;
+            }
+            path.Reverse();
+            return path;
         }
     }
 }
