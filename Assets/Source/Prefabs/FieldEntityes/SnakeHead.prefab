@@ -101,7 +101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f855a49205a82e64faf974aef9304c4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TickOrder: 0
+  TickOrder: 10
   _moveHandler: {fileID: 5881135428278222688}
   _tailManager: {fileID: 2902612011452275270}
 --- !u!114 &1781661716400187077
@@ -117,6 +117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _head: {fileID: 7830498143240092408}
+  _headSpriteDirection: 0
 --- !u!114 &5881135428278222688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -307,5 +308,4 @@ MonoBehaviour:
   _lineRenderer: {fileID: 7206743740904869586}
   _snakeHead: {fileID: 7830498143240092408}
   _tailManager: {fileID: 2902612011452275270}
-  _cellSize: 1
   _smoothStep: 0.05

@@ -15,12 +15,12 @@ namespace SanderSaveli.Snake
         [SerializeField] private Apple _apple;
 
         private ObjectPool<Apple> _applePool;
-        private GameField _gameField;
+        private IGameField _gameField;
         private SignalBus _signalBus;
         private DiContainer _container;
 
         [Inject]
-        public void Construct(SignalBus signalBus, GameField gameField, DiContainer diContainer)
+        public void Construct(SignalBus signalBus, IGameField gameField, DiContainer diContainer)
         {
             _gameField = gameField;
             _signalBus = signalBus;

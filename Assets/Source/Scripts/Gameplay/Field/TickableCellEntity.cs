@@ -5,7 +5,7 @@ namespace SanderSaveli.Snake
 {
     public abstract class TickableCellEntity : CellEntity
     {
-        [SerializeField] protected int TickOrder;
+        [SerializeField] protected TickOrder TickOrder;
         protected float TickTime {  get; private set; }
         protected GameLoop _gameLoop;
 
@@ -17,7 +17,7 @@ namespace SanderSaveli.Snake
 
         private void OnEnable()
         {
-            _gameLoop.SubscribeToTick(this, TickOrder);
+            _gameLoop.SubscribeToTick(this, (int)TickOrder);
             TickTime = _gameLoop.TickTime;
         }
 

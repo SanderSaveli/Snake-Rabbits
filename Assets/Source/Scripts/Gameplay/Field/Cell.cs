@@ -1,30 +1,34 @@
 using UnityEngine;
 
-public class Cell
+
+namespace SanderSaveli.Snake
 {
-    public int X { get; private set; }
-    public int Y { get; private set; }
-    public Vector2Int Position => new Vector2Int(X, Y);
-    public Vector3 WorldPosition => View.transform.position;
-    public CellView View { get; private set; }
-    public CellEntity Entity { get; private set; }
-    public bool IsOccupied => Entity != null;
-
-    public Cell(int x, int y, CellView view)
+    public class Cell
     {
-        X = x;
-        Y = y;
-        View = view;
-        view.Cell = this;
-    }
+        public int X { get; private set; }
+        public int Y { get; private set; }
+        public Vector2Int Position => new Vector2Int(X, Y);
+        public Vector3 WorldPosition => View.transform.position;
+        public CellView View { get; private set; }
+        public CellEntity Entity { get; private set; }
+        public bool IsOccupied => Entity != null;
 
-    public void SetEntity(CellEntity cellEntity)
-    {
-        Entity = cellEntity;
-    }
+        public Cell(int x, int y, CellView view)
+        {
+            X = x;
+            Y = y;
+            View = view;
+            view.Cell = this;
+        }
 
-    public override string ToString()
-    {
-        return $"Cell: {X}:{Y}, View: {View}, View pos: {View.Position} ";
+        public void SetEntity(CellEntity cellEntity)
+        {
+            Entity = cellEntity;
+        }
+
+        public override string ToString()
+        {
+            return $"Cell: {X}:{Y}, View: {View}, View pos: {View.Position} ";
+        }
     }
 }

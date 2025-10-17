@@ -57,5 +57,29 @@ namespace SanderSaveli.Snake
                     throw new NotImplementedException($"There is no case for Direction {direction}");
             }
         }
+
+        public static Direction TurnLeft(Direction dir)
+        {
+            return dir switch
+            {
+                Direction.Up => Direction.Left,
+                Direction.Left => Direction.Down,
+                Direction.Down => Direction.Right,
+                Direction.Right => Direction.Up,
+                _ => dir
+            };
+        }
+
+        public static Direction TurnRight(Direction dir)
+        {
+            return dir switch
+            {
+                Direction.Up => Direction.Right,
+                Direction.Right => Direction.Down,
+                Direction.Down => Direction.Left,
+                Direction.Left => Direction.Up,
+                _ => dir
+            };
+        }
     }
 }

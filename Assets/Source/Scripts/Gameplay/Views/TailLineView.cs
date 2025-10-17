@@ -12,12 +12,12 @@ namespace SanderSaveli.Snake
 
         private SnakeTail _lastTailView;
         private Vector3 _entityLayer;
-        private GameField _gameField;
+        private IGameField _gameField;
 
         [SerializeField] private float _smoothStep = 0.05f;   
 
         [Inject]
-        public void Construct(GraficConfig graficConfig, GameField gameField)
+        public void Construct(GraficConfig graficConfig, IGameField gameField)
         {
             _entityLayer = new Vector3(0, 0, graficConfig.EntityLayer);
             _gameField = gameField;

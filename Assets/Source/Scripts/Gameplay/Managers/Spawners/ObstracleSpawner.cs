@@ -19,11 +19,11 @@ namespace SanderSaveli.Snake
         [SerializeField] private int _obstracleCount;
 
         private ObjectPool<Obstacle> _obstaclePool;
-        private GameField _gameField;
+        private IGameField _gameField;
         private DiContainer _container;
 
         [Inject]
-        public void Construct(GameField gameField, DiContainer diContainer)
+        public void Construct(IGameField gameField, DiContainer diContainer)
         {
             _gameField = gameField;
             _container = diContainer;

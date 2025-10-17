@@ -13,7 +13,12 @@ namespace SanderSaveli.Snake
         [Space]
         [SerializeField] private int _carrotHealth = 40;
 
+        [Space]
+        [Header("Rabbit")]
+        [SerializeField] private RabbitConfig _rabbitConfig;
+
         public float TickTime => 1 / _ticksPerSecond;
         public int CarrotHealth => _carrotHealth;
+        public RabbitConfig RabbitConfig => _rabbitConfig;
     }
 }

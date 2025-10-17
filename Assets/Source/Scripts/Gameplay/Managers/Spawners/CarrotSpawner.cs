@@ -17,13 +17,13 @@ namespace SanderSaveli.Snake
         [Header("Prefabs")]
         [SerializeField] private Carrot _carrot;
 
-        private GameField _gameField;
+        private IGameField _gameField;
         private DiContainer _container;
 
         private List<Carrot> _carrotList;
 
         [Inject]
-        public void Construct(GameField gameField, DiContainer diContainer)
+        public void Construct(IGameField gameField, DiContainer diContainer)
         {
             _gameField = gameField;
             _container = diContainer;

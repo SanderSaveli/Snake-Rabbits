@@ -1351,6 +1351,7 @@ GameObject:
   - component: {fileID: 406966428}
   - component: {fileID: 406966432}
   - component: {fileID: 406966433}
+  - component: {fileID: 406966434}
   m_Layer: 0
   m_Name: Gameplay
   m_TagString: Untagged
@@ -1447,6 +1448,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _inputType: 1
   _pad: {fileID: 1818699208}
+--- !u!114 &406966434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 406966427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e647ba241cdc47468873341b0400b0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &510892071 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 9117019607283480879, guid: e3d89217126e73b4386f364d5cf07e03, type: 3}
@@ -2576,6 +2589,7 @@ Transform:
   - {fileID: 798471393}
   - {fileID: 1486075460}
   - {fileID: 1910489429}
+  - {fileID: 1563921385}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &1282574458 stripped
@@ -2739,6 +2753,37 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1486075459}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1259493851}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1563921384
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1563921385}
+  m_Layer: 0
+  m_Name: Rabbits
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1563921385
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1563921384}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -2992,6 +3037,7 @@ MonoBehaviour:
   _gameField: {fileID: 406966429}
   _gameLoop: {fileID: 406966432}
   _scoreManager: {fileID: 1665406838}
+  _pathFinder: {fileID: 406966434}
 --- !u!1 &1818699205
 GameObject:
   m_ObjectHideFlags: 0

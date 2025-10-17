@@ -4,10 +4,11 @@ using System.Linq;
 using UnityEngine;
 using Zenject;
 
-public class GameField : MonoBehaviour
+public class GameField : MonoBehaviour, IGameField
 {
     public int FieldWidth => _field.Width;
     public int FieldHeight => _field.Height;
+    public Matrix<Cell> Field => _field;
     public Cell this[int x, int y]
     {
         get => _field.GetValue(x, y);

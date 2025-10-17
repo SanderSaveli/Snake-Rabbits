@@ -15,11 +15,11 @@ namespace SanderSaveli.Snake
         private SnakeHead _head;
         private LevelConfig _levelConfig;
         private DiContainer _container;
-        private GameField _gameField;
+        private IGameField _gameField;
         private Cell _lastPassedCell;
 
         [Inject]
-        public void Construct(DiContainer container, LevelConfig levelConfig, GameField gameField)
+        public void Construct(DiContainer container, LevelConfig levelConfig, IGameField gameField)
         {
             _container = container;
             _levelConfig = levelConfig;
