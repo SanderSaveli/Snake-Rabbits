@@ -200,6 +200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _graficConfig: {fileID: 11400000, guid: 99963b170411c6d438292b469d5b0cff, type: 2}
+  _gameField: {fileID: 0}
 --- !u!1 &290532447
 GameObject:
   m_ObjectHideFlags: 0
@@ -284,6 +285,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 327842542}
+  - component: {fileID: 327842543}
   m_Layer: 0
   m_Name: Spawners
   m_TagString: Untagged
@@ -306,6 +308,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 846245844}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &327842543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 327842540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bd55b92b6681f6449ad6cb02ee2e8a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _parent: {fileID: 1653896358}
+  _objectPrefab: {fileID: 3665921420669990822, guid: 8f01683c87c4d3c4d8445cc594211636, type: 3}
+  _obstacleCount: 10
 --- !u!1 &728309958
 GameObject:
   m_ObjectHideFlags: 0
@@ -414,8 +431,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameField: {fileID: 846245841}
   _cellSelector: {fileID: 846245846}
-  FieldWidth: 6
-  FieldHeight: 12
+  FieldWidth: 12
+  FieldHeight: 20
 --- !u!114 &846245846
 MonoBehaviour:
   m_ObjectHideFlags: 0

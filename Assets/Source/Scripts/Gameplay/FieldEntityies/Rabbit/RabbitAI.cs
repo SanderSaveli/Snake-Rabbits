@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
@@ -38,17 +37,14 @@ namespace SanderSaveli.Snake
         private void IniFSM()
         {
             _fsm = new FSM<IRabbitState>();
-            List<IRabbitState> states = new List<IRabbitState>()
-            {
-                new MoveToCarrotState(_fieldPathFinder, _gameplayConfig.RabbitConfig),
-                new EatCarrotState()
-            };
 
-            foreach (var state in states)
-            {
-                state.Initialize(_rabbit, _fsm);
-                _fsm.AddOrUpdateState(state);
-            }
+            MoveToCarrotState moveState = new MoveToCarrotState(_fieldPathFinder, _gameplayConfig.RabbitConfig);
+            moveState.Initialize(_rabbit, _fsm);
+            _fsm.AddOrUpdateState(moveState);
+
+            EatCarrotState eatState = new EatCarrotState();
+            eatState.Initialize(_rabbit, _fsm);
+            _fsm.AddOrUpdateState(eatState);
         }
     }
 }

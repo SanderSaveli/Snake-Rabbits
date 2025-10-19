@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 namespace SanderSaveli.Snake
 {
     public class EatCarrotState : IRabbitState
@@ -25,11 +27,13 @@ namespace SanderSaveli.Snake
                 || !fowardCell.IsOccupied
                 || fowardCell.Entity.EntityType != typeof(Carrot))
             {
+                UnityEngine.Debug.Log("There is no carrot, go to anoter carrot");
                 _fsm.ChangeState<MoveToCarrotState>();
                 return;
             }
             else
             {
+                UnityEngine.Debug.Log("Eat Carrot");
                 Carrot carrot = fowardCell.Entity as Carrot;
                 carrot.TakeDamage();
             }

@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9099549cb83c67049a8884a688004db9, type: 3}
   m_Name: Rabbit Config
   m_EditorClassIdentifier: 
-  _moveDuration: 2
+  _moveDuration: 1
   _rotateDuration: 1

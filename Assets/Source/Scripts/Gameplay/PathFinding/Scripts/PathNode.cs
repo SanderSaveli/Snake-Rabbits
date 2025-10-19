@@ -1,3 +1,4 @@
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace SanderSaveli.Pathfinding
@@ -6,6 +7,7 @@ namespace SanderSaveli.Pathfinding
     {
         public PathNode(Vector2Int position, bool passable)
         {
+            SetG(float.MaxValue);
             Position = position;
             Passable = passable;
         }

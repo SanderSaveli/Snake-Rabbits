@@ -1,48 +1,40 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 
 namespace SanderSaveli.Snake
 {
-    public class GameStarter : MonoBehaviour
+    public class RabbitGameStarter : MonoBehaviour
     {
         [Header("Components")]
         [SerializeField] private GameField _gameField;
         [SerializeField] private GameLoop _gameLoop;
-        [SerializeField] private AppleSpawner _appleSpawner;
         [SerializeField] private ObstacleSpawner _obstacleSpawner;
         [SerializeField] private CarrotSpawner _carrotSpawner;
-
-        [Header("Prefabs")]
-        [SerializeField] private SnakeHead _snakeHead;
-        [SerializeField] private SnakeTail _snakeSegment;
+        [SerializeField] private RabbitSpawner _rabbitSpawner;
 
         private SignalBus _signalBus;
-        private DiContainer _container;
-        private LevelConfig _levelConfig;
 
         [Inject]
-        public void Construct(SignalBus signalBus, DiContainer container, LevelConfig levelConfig)
+        public void Construct(SignalBus signalBus)
         {
             _signalBus = signalBus;
-            _container = container;
-            _levelConfig = levelConfig;
         }
 
         private void Start()
         {
             Time.timeScale = 1;
-            _gameField.EnsureField();
-            InitSnake();
-            _appleSpawner.SpawnApple();
             _obstacleSpawner.SpawnObstracles();
             _carrotSpawner.SpawnCarrot();
+            _rabbitSpawner.SpawnRabbits();
             _gameLoop.StartGameLoop();
         }
 
         private void OnEnable()
         {
+            _gameField.EnsureField();
             _signalBus.Subscribe<SignalGameEnd>(HandleGameEnd);
         }
 
@@ -51,19 +43,9 @@ namespace SanderSaveli.Snake
             _signalBus.Unsubscribe<SignalGameEnd>(HandleGameEnd);
         }
 
-
         private void HandleGameEnd(SignalGameEnd ctx)
         {
             _gameLoop.EndGameLoop();
-        }
-
-        private void InitSnake()
-        {
-            SnakeHead snake = _container.InstantiatePrefabForComponent<SnakeHead>(_snakeHead);
-            Cell snakeStartCell = _gameField[_gameField.FieldWidth / 2, _gameField.FieldHeight / 2];
-            snake.SetStartCell(snakeStartCell);
-            snake.Direction = _levelConfig.startDirection;
-            snake.SetStartTailParts();
         }
     }
 }

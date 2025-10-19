@@ -37,12 +37,15 @@ namespace SanderSaveli.Snake
 
         public void OnUpdate()
         {
-            if(_action != null)
+            Debug.Log("____Tick___");
+            if (_action != null)
             {
+                Debug.Log("Clockdown");
                 ClockdownAction();
             }
             else
             {
+                Debug.Log("DetermineAction");
                 DetermineNextAction();
             }
         }
@@ -69,20 +72,35 @@ namespace SanderSaveli.Snake
 
             if (targetCell == null)
             {
+                Debug.Log("There is no Path!");
                 return;
             }
-
-            Cell nextCell= path[0];
-            if(IsLookAtCell(nextCell))
+            foreach(var cell in path)
             {
-                MoveForward();
+                Debug.Log(cell.Position);
+            }
+            Cell nextCell = path[0];
+
+            if (IsLookAtCell(nextCell))
+            {
+                Debug.Log("I Look at cell!");
+                if (path.Count == 1)
+                {
+                    Debug.Log("I Look at Carrot, start eat!");
+                    _fsm.ChangeState<EatCarrotState>();
+                }
+                else
+                {
+                    MoveForward();
+                }
             }
             else
             {
+                Debug.Log("INeed rotate");
                 Direction direction = GetCellOrentation(nextCell);
                 if(DirectionTool.IsOpposite(_rabbit.LookAt, direction))
                 {
-                    GetRandomTurnToward(direction);
+                    RotateTo(GetRandomTurnToward());
                 }
                 else
                 {
@@ -115,17 +133,19 @@ namespace SanderSaveli.Snake
 
         private void RotateTo(Direction direction)
         {
+            Debug.Log("Start rotate");
             _currentActionTimer = _rotationDuration;
             _action = () => _rabbit.Rotate(direction);
         }
 
         private void MoveForward()
         {
+            Debug.Log("Start move forvard");
             _currentActionTimer = _moveDuration;
             _action = () => _rabbit.MoveForward();
         }
 
-        private Direction GetRandomTurnToward(Direction target)
+        private Direction GetRandomTurnToward()
         {
             bool turnLeft = UnityEngine.Random.Range(0, 2) == 1;
             return turnLeft ?  DirectionTool.TurnLeft(_rabbit.LookAt) : DirectionTool.TurnRight(_rabbit.LookAt);

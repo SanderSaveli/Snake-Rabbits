@@ -16,7 +16,7 @@ namespace SanderSaveli.Snake
             _gameField = gameField;
         }
 
-        private void Awake()
+        public void Start()
         {
             INeighborLocator locator = new FourSideNeighborLockator();
             _pathFinder = new PathFinder<Cell>(_gameField.Field, IsPassable, locator);
@@ -47,7 +47,7 @@ namespace SanderSaveli.Snake
             Cell nearestCell = null;
             int minPath = int.MaxValue;
             path = null;
-
+            _pathFinder.IniPathMatrix(_gameField.Field);
             foreach (Cell cell in allEntities)
             {
                 if (_pathFinder.TryGetPath(from.Position, cell.Position, out List<Cell> pathToCell))
@@ -55,7 +55,7 @@ namespace SanderSaveli.Snake
                     if (pathToCell.Count < minPath)
                     {
                         nearestCell = cell;
-                        minPath = path.Count;
+                        minPath = pathToCell.Count;
                         path = pathToCell;
                     }
                 }
@@ -66,6 +66,7 @@ namespace SanderSaveli.Snake
 
         public bool TryFindPath(Cell from, Cell to, out List<Cell> path)
         {
+            _pathFinder.IniPathMatrix(_gameField.Field);
             return _pathFinder.TryGetPath(from.Position, to.Position, out path);
         }
 

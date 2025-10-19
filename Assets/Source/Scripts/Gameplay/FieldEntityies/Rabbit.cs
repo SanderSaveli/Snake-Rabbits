@@ -8,6 +8,7 @@ namespace SanderSaveli.Snake
         public Direction LookAt { get; private set; }
         [SerializeField] private RabbitAI _rabbitAI;
         public Action<Cell> OnCellChange;
+        public Action<Direction> OnRotate;
 
         public override void CollideWithHead(SnakeHead snake, out bool isKillSnake)
         {
@@ -24,6 +25,7 @@ namespace SanderSaveli.Snake
         public void Rotate(Direction direction)
         {
             LookAt = direction;
+            OnRotate?.Invoke(direction);
         }
 
         public void MoveForward()
@@ -32,6 +34,7 @@ namespace SanderSaveli.Snake
 
             if (nextCell == null || nextCell.IsOccupied)
             {
+                Debug.Log("Cell is IsOccupied");
                 return;
             }
 

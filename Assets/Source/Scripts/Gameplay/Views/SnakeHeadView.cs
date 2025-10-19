@@ -15,7 +15,6 @@ namespace SanderSaveli.Snake
 
         private Vector3 _entityLayer;
         private float _tickTime;
-        private Cell _previousCell;
         private float _initialAngel;
 
         [Inject]
@@ -48,7 +47,6 @@ namespace SanderSaveli.Snake
 
         private void HandleCellChanged(Cell newCell)
         {
-            _previousCell = newCell;
             Vector3 nextPosition = newCell.WorldPosition + _entityLayer;
             transform.DOMove(nextPosition, _tickTime).SetEase(Ease.Linear);
             Vector3 direction = nextPosition - transform.position;

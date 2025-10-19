@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5113328378230374507}
   - component: {fileID: 3934758395503275905}
   - component: {fileID: 3421806867568342379}
+  - component: {fileID: 6308677775782622082}
   m_Layer: 0
   m_Name: Rabbit
   m_TagString: Untagged
@@ -112,4 +113,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb99b0b56ce61d64c87003dcff8f5237, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rabbit: {fileID: 3934758395503275905}
+--- !u!114 &6308677775782622082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4000636107657534833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c60b6e2211cd2df41a62484fb6645096, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spriteDirection: 0
   _rabbit: {fileID: 3934758395503275905}
