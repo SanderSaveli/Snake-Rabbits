@@ -98,4 +98,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spriteRenderer: {fileID: 7058789221232418228}
-  _isDebug: 0
+  _isDebug: 1

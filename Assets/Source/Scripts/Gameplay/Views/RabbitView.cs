@@ -31,18 +31,20 @@ namespace SanderSaveli.Snake
         {
             _rabbit.OnCellChange += HandleChangeCell;
             _rabbit.OnRotate += HandleRotate;
+            _rabbit.OnKill += HandleDie;
         }
 
         private void OnDisable()
         {
             _rabbit.OnCellChange -= HandleChangeCell;
             _rabbit.OnRotate -= HandleRotate;
+            _rabbit.OnKill -= HandleDie;
         }
 
         private void HandleChangeCell(Cell cell)
         {
             Vector3 nextPosition = cell.WorldPosition + _entityLayer;
-            transform.DOMove(nextPosition, _tickTime).SetEase(Ease.Linear);
+            transform.DOMove(nextPosition, _tickTime).SetEase(Ease.Linear).SetLink(gameObject);
         }
 
         private void HandleRotate(Direction direction)
@@ -53,7 +55,13 @@ namespace SanderSaveli.Snake
 
             angle -= _initialAngel;
 
-            transform.DORotate(new Vector3(0, 0, angle), _tickTime / 2);
+            transform.DORotate(new Vector3(0, 0, angle), _tickTime / 2).SetLink(gameObject);
+        }
+
+        private void HandleDie()
+        {
+            transform.DOScale(Vector3.zero, _tickTime)
+                .OnComplete(() => Destroy(gameObject)).SetLink(gameObject);
         }
 
         private float GetInitialSpriteAngle()

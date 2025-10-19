@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
@@ -10,9 +8,9 @@ namespace SanderSaveli.Snake
         [Header("Components")]
         [SerializeField] private GameField _gameField;
         [SerializeField] private GameLoop _gameLoop;
-        [SerializeField] private AppleSpawner _appleSpawner;
-        [SerializeField] private ObstacleSpawner _obstacleSpawner;
-        [SerializeField] private CarrotSpawner _carrotSpawner;
+        [SerializeField] private CellEntitySpawner<Obstacle> _obstacleSpawner;
+        [SerializeField] private CellEntitySpawner<Carrot> _carrotSpawner;
+        [SerializeField] private CellEntitySpawner<Rabbit> _rabbitSpawner;
 
         [Header("Prefabs")]
         [SerializeField] private SnakeHead _snakeHead;
@@ -35,9 +33,9 @@ namespace SanderSaveli.Snake
             Time.timeScale = 1;
             _gameField.EnsureField();
             InitSnake();
-            _appleSpawner.SpawnApple();
-            _obstacleSpawner.SpawnObstracles();
-            _carrotSpawner.SpawnCarrot();
+            _obstacleSpawner.SpawnAll();
+            _carrotSpawner.SpawnAll();
+            _rabbitSpawner.SpawnAll();
             _gameLoop.StartGameLoop();
         }
 

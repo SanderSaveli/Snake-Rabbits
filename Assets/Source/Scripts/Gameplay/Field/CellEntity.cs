@@ -24,6 +24,13 @@ namespace SanderSaveli.Snake
             transform.position = cell.WorldPosition;
         }
 
+        public void ChangeCell(Cell newCell)
+        {
+            CurrentCell.SetEntity(null);
+            newCell.SetEntity(this);
+            CurrentCell = newCell;
+        }
+
         public abstract void CollideWithHead(SnakeHead snake, out bool isKillSnake);
         public abstract Type GetEntityType();
     }

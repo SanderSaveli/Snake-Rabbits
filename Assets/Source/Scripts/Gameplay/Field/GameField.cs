@@ -53,6 +53,25 @@ public class GameField : MonoBehaviour, IGameField
                 .Where(c => !c.IsOccupied)
                 .ToList();
 
+    public List<Cell> FindAllCellsWithEntity<T>() where T : CellEntity
+    {
+        List<Cell> result = new List<Cell>();
+
+        List<Cell> allCells = Field.AllValues();
+
+        foreach (var cell in allCells)
+        {
+            if (cell.IsOccupied)
+            {
+                if (cell.Entity.GetType() == typeof(T))
+                {
+                    result.Add(cell);
+                }
+            }
+        }
+        return result;
+    }
+
     private void CreateField()
     {
         _field = new Matrix<Cell>(_fieldWith, _fieldHeight);

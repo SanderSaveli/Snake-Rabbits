@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Zenject;
+using static UnityEngine.EventSystems.EventTrigger;
 
 namespace SanderSaveli.Snake
 {
@@ -25,10 +26,12 @@ namespace SanderSaveli.Snake
         private List<TickOrder> _tickEntities;
         private bool _isGameEnd;
         private Coroutine _loopRoutine;
+        private HashSet<TickableCellEntity> _unsubscribeBoofer;
 
         private void Awake()
         {
             _tickEntities = new List<TickOrder>();
+            _unsubscribeBoofer = new HashSet<TickableCellEntity>();
         }
 
         [Inject]
@@ -61,7 +64,7 @@ namespace SanderSaveli.Snake
 
         public void UnsubscribeFromTick(TickableCellEntity entity)
         {
-            _tickEntities.Remove(_tickEntities.FirstOrDefault(t => t.Entity == entity));
+            _unsubscribeBoofer.Add(entity);
         }
 
         private IEnumerator TickLoop()
@@ -78,6 +81,17 @@ namespace SanderSaveli.Snake
             foreach (var entity in _tickEntities)
             {
                 entity.Entity.Tick();
+            }
+
+            if(_unsubscribeBoofer.Count > 0)
+            {
+                foreach (var item in _unsubscribeBoofer)
+                {
+                    TickOrder tickOrder = _tickEntities.FirstOrDefault(t => t.Entity == item);
+                    if (tickOrder != null)
+                        _tickEntities.Remove(tickOrder);
+                }
+                _unsubscribeBoofer.Clear();
             }
         }
     }

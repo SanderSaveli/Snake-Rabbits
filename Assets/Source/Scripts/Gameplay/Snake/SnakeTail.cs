@@ -6,10 +6,9 @@ namespace SanderSaveli.Snake
     {
         public Action<Cell> OnChangeCell;
 
-        public void ChangeCell(Cell cell)
+        public new void ChangeCell(Cell cell)
         {
-            CurrentCell = cell;
-            cell.SetEntity(this);
+            base.ChangeCell(cell);
             OnChangeCell?.Invoke(cell);
         }
 

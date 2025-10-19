@@ -33,7 +33,6 @@ namespace SanderSaveli.Snake
             }
             else
             {
-                UnityEngine.Debug.Log("Eat Carrot");
                 Carrot carrot = fowardCell.Entity as Carrot;
                 carrot.TakeDamage();
             }

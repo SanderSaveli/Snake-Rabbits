@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace SanderSaveli.Snake
 {
@@ -9,10 +10,21 @@ namespace SanderSaveli.Snake
         [SerializeField] private RabbitAI _rabbitAI;
         public Action<Cell> OnCellChange;
         public Action<Direction> OnRotate;
+        public Action OnKill;
+        private SignalBus _signalBus;
+
+        [Inject]
+        public void Construct(SignalBus signalBus)
+        {
+            _signalBus = signalBus;
+        }
+
 
         public override void CollideWithHead(SnakeHead snake, out bool isKillSnake)
         {
             isKillSnake = false;
+            snake.AddLength();
+            Die();
         }
 
         public override Type GetEntityType() => typeof(Rabbit);
@@ -38,8 +50,7 @@ namespace SanderSaveli.Snake
                 return;
             }
 
-            nextCell.SetEntity(this);
-            CurrentCell = nextCell;
+            ChangeCell(nextCell);
             OnCellChange?.Invoke(nextCell);
         }
 
@@ -53,6 +64,14 @@ namespace SanderSaveli.Snake
 
             Cell nextCell = GameField[nextCellPos.x, nextCellPos.y];
             return nextCell;
+        }
+
+        public void Die()
+        {
+            Debug.Log("Rabbit die");
+            RemoveFromField();
+            _signalBus.Fire(new SignalRabbitEated(this));
+            OnKill?.Invoke();
         }
     }
 }

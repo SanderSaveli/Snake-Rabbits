@@ -22,28 +22,9 @@ namespace SanderSaveli.Snake
             _pathFinder = new PathFinder<Cell>(_gameField.Field, IsPassable, locator);
         }
 
-        public List<Cell> FindAll<T>() where T : CellEntity
-        {
-            List<Cell> result = new List<Cell>();
-
-            List<Cell> allCells = _gameField.Field.AllValues();
-
-            foreach (var cell in allCells)
-            {
-                if (cell.IsOccupied)
-                {
-                    if (cell.Entity.GetType() == typeof(T))
-                    {
-                        result.Add(cell);
-                    }
-                }
-            }
-            return result;
-        }
-
         public Cell GetNearestCellWithEntity<T>(Cell from, out List<Cell> path) where T : CellEntity
         {
-            List<Cell> allEntities = FindAll<T>();
+            List<Cell> allEntities = _gameField.FindAllCellsWithEntity<T>();
             Cell nearestCell = null;
             int minPath = int.MaxValue;
             path = null;

@@ -6,12 +6,12 @@ namespace SanderSaveli.Snake
     public abstract class CellEntitySpawner<T> : MonoBehaviour where T : CellEntity
     {
         [Header("Components")]
-        [SerializeField] private Transform _parent;
+        [SerializeField] protected Transform _parent;
 
         [Header("Prefabs")]
-        [SerializeField] private T _objectPrefab;
+        [SerializeField] protected T _objectPrefab;
 
-        private DiContainer _container;
+        protected DiContainer _container;
 
         [Inject]
         public void Construct(DiContainer container)
@@ -19,7 +19,7 @@ namespace SanderSaveli.Snake
             _container = container;
         }
 
-        public T Spawn(Cell cell)
+        public virtual T Spawn(Cell cell)
         {
             if(cell.IsOccupied)
             {
@@ -31,5 +31,6 @@ namespace SanderSaveli.Snake
             return entity;
         }
 
+        public abstract void SpawnAll();
     }
 }

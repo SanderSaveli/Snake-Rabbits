@@ -26,6 +26,12 @@ namespace SanderSaveli.Snake
             _gameLoop.UnsubscribeFromTick(this);
         }
 
+        protected void RemoveFromField()
+        {
+            _gameLoop.UnsubscribeFromTick(this);
+            CurrentCell.SetEntity(null);
+        }
+
         public abstract void Tick();
     }
 }

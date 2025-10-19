@@ -20,5 +20,6 @@ namespace SanderSaveli.Snake
         public bool IsInBounds(int x, int y);
 
         public List<Cell> GetFreeCell();
+        public List<Cell> FindAllCellsWithEntity<T>() where T : CellEntity;
     }
 }

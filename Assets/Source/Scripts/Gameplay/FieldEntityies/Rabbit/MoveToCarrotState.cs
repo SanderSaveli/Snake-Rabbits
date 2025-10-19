@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 
 namespace SanderSaveli.Snake
@@ -10,7 +9,6 @@ namespace SanderSaveli.Snake
         private Rabbit _rabbit;
         private FSM<IRabbitState> _fsm;
         private IFieldPathFinder _fieldPathFinder;
-        private GameplayConfig _gameplayConfig;
 
         private int _moveDuration;
         private int _rotationDuration;
@@ -37,15 +35,12 @@ namespace SanderSaveli.Snake
 
         public void OnUpdate()
         {
-            Debug.Log("____Tick___");
             if (_action != null)
             {
-                Debug.Log("Clockdown");
                 ClockdownAction();
             }
             else
             {
-                Debug.Log("DetermineAction");
                 DetermineNextAction();
             }
         }
@@ -67,26 +62,20 @@ namespace SanderSaveli.Snake
 
         private void DetermineNextAction()
         {
-            Cell targetCell = 
+            Cell targetCell =
                 _fieldPathFinder.GetNearestCellWithEntity<Carrot>(_rabbit.CurrentCell, out List<Cell> path);
 
             if (targetCell == null)
             {
-                Debug.Log("There is no Path!");
                 return;
             }
-            foreach(var cell in path)
-            {
-                Debug.Log(cell.Position);
-            }
+
             Cell nextCell = path[0];
 
             if (IsLookAtCell(nextCell))
             {
-                Debug.Log("I Look at cell!");
                 if (path.Count == 1)
                 {
-                    Debug.Log("I Look at Carrot, start eat!");
                     _fsm.ChangeState<EatCarrotState>();
                 }
                 else
@@ -96,9 +85,8 @@ namespace SanderSaveli.Snake
             }
             else
             {
-                Debug.Log("INeed rotate");
                 Direction direction = GetCellOrentation(nextCell);
-                if(DirectionTool.IsOpposite(_rabbit.LookAt, direction))
+                if (DirectionTool.IsOpposite(_rabbit.LookAt, direction))
                 {
                     RotateTo(GetRandomTurnToward());
                 }
@@ -133,14 +121,12 @@ namespace SanderSaveli.Snake
 
         private void RotateTo(Direction direction)
         {
-            Debug.Log("Start rotate");
             _currentActionTimer = _rotationDuration;
             _action = () => _rabbit.Rotate(direction);
         }
 
         private void MoveForward()
         {
-            Debug.Log("Start move forvard");
             _currentActionTimer = _moveDuration;
             _action = () => _rabbit.MoveForward();
         }
@@ -148,7 +134,7 @@ namespace SanderSaveli.Snake
         private Direction GetRandomTurnToward()
         {
             bool turnLeft = UnityEngine.Random.Range(0, 2) == 1;
-            return turnLeft ?  DirectionTool.TurnLeft(_rabbit.LookAt) : DirectionTool.TurnRight(_rabbit.LookAt);
+            return turnLeft ? DirectionTool.TurnLeft(_rabbit.LookAt) : DirectionTool.TurnRight(_rabbit.LookAt);
         }
     }
 }

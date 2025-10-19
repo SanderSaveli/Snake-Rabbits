@@ -28,6 +28,7 @@ public class GameSceneInstaller : MonoInstaller
         Container.DeclareSignal<SignalInputOpenGamePopup>();
 
         Container.DeclareSignal<SignalAppleEated>();
+        Container.DeclareSignal<SignalRabbitEated>();
 
         Container.DeclareSignal<SignalAddScore>();
         Container.DeclareSignal<SignalScoreChanged>();

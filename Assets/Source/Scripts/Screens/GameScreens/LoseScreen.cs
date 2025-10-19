@@ -39,7 +39,7 @@ namespace SanderSaveli.Snake
 
         private void HandleNextLevel()
         {
-            _signalBus.Fire(new SignalInputAction(InputActionType.RestartScene));
+            _signalBus.Fire(new SignalInputAction(InputActionType.LoadGame_Levels));
         }
     }
 }

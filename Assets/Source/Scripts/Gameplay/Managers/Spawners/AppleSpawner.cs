@@ -1,35 +1,25 @@
 using SanderSaveli.UDK;
 using SanderSaveli.UDK.Tools;
 using System.Collections.Generic;
-using UnityEngine;
 using Zenject;
 
 namespace SanderSaveli.Snake
 {
-    public class AppleSpawner : MonoBehaviour
+    public class AppleSpawner : RandomSpawner<Apple>
     {
-        [Header("Components")]
-        [SerializeField] private Transform _appleParent;
-
-        [Header("Prefabs")]
-        [SerializeField] private Apple _apple;
-
         private ObjectPool<Apple> _applePool;
         private IGameField _gameField;
         private SignalBus _signalBus;
-        private DiContainer _container;
 
         [Inject]
-        public void Construct(SignalBus signalBus, IGameField gameField, DiContainer diContainer)
+        public void Construct(SignalBus signalBus)
         {
-            _gameField = gameField;
             _signalBus = signalBus;
-            _container = diContainer;
         }
 
         private void Awake()
         {
-            _applePool = new InjectionObjectPool<Apple>(_container, _apple, _appleParent);
+            _applePool = new InjectionObjectPool<Apple>(_container, _objectPrefab, _parent);
         }
 
         private void OnEnable()
@@ -44,9 +34,14 @@ namespace SanderSaveli.Snake
 
         public void SpawnApple()
         {
+            SpawnRandom();
+        }
+
+        public override Apple Spawn(Cell cell)
+        {
             Apple apple = _applePool.Get();
-            List<Cell> freeCells = _gameField.GetFreeCell();
-            apple.SetStartCell(freeCells[Random.Range(0, freeCells.Count)]);
+            apple.SetStartCell(cell);
+            return apple;
         }
     }
 }

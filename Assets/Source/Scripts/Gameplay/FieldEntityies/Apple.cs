@@ -32,6 +32,7 @@ namespace SanderSaveli.Snake
             isKillSnake = false;
             snake.AddLength();
             _signalBus.Fire(new SignalAppleEated(CurrentCell, this));
+            CurrentCell.SetEntity(null);
             PlayEatAnimation();
         }
 
