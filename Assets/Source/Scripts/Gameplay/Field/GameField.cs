@@ -85,4 +85,15 @@ public class GameField : MonoBehaviour, IGameField
             }
         }
     }
+
+    public List<T> FindAllEntity<T>() where T : CellEntity
+    {
+        List<Cell> cells = FindAllCellsWithEntity<T>();
+        List<T> result = new List<T>();
+        foreach (var cell in cells)
+        {
+            result.Add(cell.Entity as T);
+        }
+        return result;
+    }
 }

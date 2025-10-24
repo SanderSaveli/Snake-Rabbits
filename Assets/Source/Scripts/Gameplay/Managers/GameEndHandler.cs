@@ -1,5 +1,7 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Zenject;
 
@@ -25,8 +27,12 @@ namespace SanderSaveli.Snake
             _signalBus.Unsubscribe<SignalGameEnd>(HandleGameEnd);
         }
 
-        private void HandleGameEnd(SignalGameEnd ctx)
+        private async void HandleGameEnd(SignalGameEnd ctx)
         {
+            SignalDoPostGameAction doPostGameAction = new SignalDoPostGameAction(ctx.IsWin);
+            _signalBus.Fire(doPostGameAction);
+            List<UniTask> actions = new List<UniTask>(doPostGameAction.Subscribers);
+            await HandleActions(actions);
             if (ctx.IsWin)
             {
                 _signalBus.Fire(new SignalInputOpenGameScreen(GameScreenType.Win));
@@ -34,6 +40,14 @@ namespace SanderSaveli.Snake
             else
             {
                 _signalBus.Fire(new SignalInputOpenGameScreen(GameScreenType.Lose));
+            }
+        }
+
+        private async UniTask HandleActions(List<UniTask> actions)
+        {
+            foreach (UniTask action in actions)
+            {
+                await action;
             }
         }
     }

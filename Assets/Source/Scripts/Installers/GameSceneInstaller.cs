@@ -9,6 +9,8 @@ public class GameSceneInstaller : MonoInstaller
     [SerializeField] private GameLoop _gameLoop;
     [SerializeField] private ScoreManager _scoreManager;
     [SerializeField] private FieldPathFinder _pathFinder;
+    [SerializeField] private ScoreTarget _scoreTarget;
+    [SerializeField] private ScoreEffectShower _scoreEffectShowwer;
 
     public override void InstallBindings()
     {
@@ -19,9 +21,13 @@ public class GameSceneInstaller : MonoInstaller
         Container.Bind<GameLoop>().FromInstance(_gameLoop).AsSingle().NonLazy();
         Container.Bind<IScoreManager>().FromInstance(_scoreManager).AsSingle().NonLazy();
         Container.Bind<IFieldPathFinder>().FromInstance(_pathFinder).AsSingle().NonLazy();
+        Container.Bind<ScoreTarget>().FromInstance(_scoreTarget).AsSingle().NonLazy();
+        Container.Bind<IScoreEffectShower>().FromInstance(_scoreEffectShowwer).AsSingle().NonLazy();
 
         #region Signals
         Container.DeclareSignal<SignalGameEnd>();
+        Container.DeclareSignal<SignalGameStart>();
+        Container.DeclareSignal<SignalDoPostGameAction>();
         Container.DeclareSignal<SignalInputChangeDirection>();
 
         Container.DeclareSignal<SignalInputOpenGameScreen>();

@@ -21,5 +21,6 @@ namespace SanderSaveli.Snake
 
         public List<Cell> GetFreeCell();
         public List<Cell> FindAllCellsWithEntity<T>() where T : CellEntity;
+        public List<T> FindAllEntity<T>() where T : CellEntity;
     }
 }

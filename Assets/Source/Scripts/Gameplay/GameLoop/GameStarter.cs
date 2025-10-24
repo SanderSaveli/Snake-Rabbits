@@ -36,19 +36,26 @@ namespace SanderSaveli.Snake
             _obstacleSpawner.SpawnAll();
             _carrotSpawner.SpawnAll();
             _rabbitSpawner.SpawnAll();
-            _gameLoop.StartGameLoop();
         }
 
         private void OnEnable()
         {
             _signalBus.Subscribe<SignalGameEnd>(HandleGameEnd);
+            _signalBus.Subscribe<SignalInputChangeDirection>(StartGame);
         }
 
         private void OnDisable()
         {
             _signalBus.Unsubscribe<SignalGameEnd>(HandleGameEnd);
+            _signalBus.TryUnsubscribe<SignalInputChangeDirection>(StartGame);
         }
 
+        private void StartGame()
+        {
+            _signalBus.TryUnsubscribe<SignalInputChangeDirection>(StartGame);
+            _signalBus.Fire(new SignalGameStart());
+            _gameLoop.StartGameLoop();
+        }
 
         private void HandleGameEnd(SignalGameEnd ctx)
         {
