@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Gameplay Config
   m_EditorClassIdentifier: 
   _ticksPerSecond: 3
+  _gameDuration: 40
   _carrotHealth: 10
   _rabbitConfig: {fileID: 11400000, guid: 2fb26e323a2432144a18eef516314008, type: 2}
