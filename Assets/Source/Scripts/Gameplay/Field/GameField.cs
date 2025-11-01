@@ -24,8 +24,8 @@ public class GameField : MonoBehaviour, IGameField
     [Inject]
     public void Construct(LevelConfig levelConfig)
     {
-        _fieldWith = levelConfig.fieldWidth;
-        _fieldHeight = levelConfig.fieldHeight;
+        _fieldWith = levelConfig.field_width;
+        _fieldHeight = levelConfig.field_height;
     }
 
     public void EnsureField()

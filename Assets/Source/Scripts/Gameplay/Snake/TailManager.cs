@@ -33,7 +33,7 @@ namespace SanderSaveli.Snake
             Direction tailDirection = DirectionTool.GetOpposite(head.Direction);
             Cell previousCell = head.CurrentCell;
 
-            for (int i = 0; i < _levelConfig.startSegmets; i++)
+            for (int i = 0; i < _levelConfig.start_segmets; i++)
             {
                 Cell curentCell = GetNextFreeCell(previousCell, tailDirection, out tailDirection);
                 TailsParts.Add(SpawnTail(curentCell));

@@ -67,7 +67,7 @@ namespace SanderSaveli.Snake
             SnakeHead snake = _container.InstantiatePrefabForComponent<SnakeHead>(_snakeHead);
             Cell snakeStartCell = _gameField[_gameField.FieldWidth / 2, _gameField.FieldHeight / 2];
             snake.SetStartCell(snakeStartCell);
-            snake.Direction = _levelConfig.startDirection;
+            snake.Direction = _levelConfig.start_direction;
             snake.SetStartTailParts();
         }
     }

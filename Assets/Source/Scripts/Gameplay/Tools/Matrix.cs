@@ -57,6 +57,16 @@ public class Matrix<T>
     public List<T> AllValues() =>
         _matrix.SelectMany(row => row).ToList();
 
+    public bool IsInBounds(Vector2Int vector)
+    {
+        return IsInBounds(vector.x, vector.y);
+    }
+
+    public bool IsInBounds(int x, int y)
+    {
+        return x>= 0 && y>= 0 && x < Width && y < Height;
+    }
+
     private void ValidateIndices(int x, int y)
     {
         if (x < 0 || x >= Width)

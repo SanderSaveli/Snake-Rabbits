@@ -22,11 +22,11 @@ namespace SanderSaveli.Snake
         public LevelConfig ToConfig()
         {
             LevelConfig config = new LevelConfig();
-            config.fieldWidth = _fieldWidth;
-            config.fieldHeight = _fieldHeight;
-            config.headPosition = _headPosition;
-            config.startDirection = _startDirection;
-            config.startSegmets = _startSegmets;
+            config.field_width = _fieldWidth;
+            config.field_height = _fieldHeight;
+            config.head_position = _headPosition;
+            config.start_direction = _startDirection;
+            config.start_segmets = _startSegmets;
 
             return config;
         }
