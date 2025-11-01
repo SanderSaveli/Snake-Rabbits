@@ -1,5 +1,4 @@
 using DG.Tweening;
-using System.ComponentModel;
 using UnityEngine;
 using Zenject;
 
@@ -9,6 +8,7 @@ namespace SanderSaveli.Snake
     {
         [Header("Components")]
         [SerializeField] private SnakeHead _head;
+        [SerializeField] private SnakeMoveHandler _moveHandler;
 
         [Header("Params")]
         [SerializeField] private Direction _headSpriteDirection;
@@ -16,6 +16,8 @@ namespace SanderSaveli.Snake
         private Vector3 _entityLayer;
         private float _tickTime;
         private float _initialAngel;
+        private Tween _moveTween;
+        private Tween _rotateTween;
 
         [Inject]
         public void Construct(GraficConfig graficConfig, GameplayConfig gameplayConfig)
@@ -26,6 +28,7 @@ namespace SanderSaveli.Snake
 
         private void Start()
         {
+            _moveTween = DOTween.Sequence(this);
             _initialAngel = GetInitialSpriteAngle();
             transform.position = _head.CurrentCell.View.transform.position + _entityLayer;
         }
@@ -33,11 +36,13 @@ namespace SanderSaveli.Snake
         private void OnEnable()
         {
             _head.OnCellChange += HandleCellChanged;
+            _moveHandler.OnNewDirectionInput += InputToCangeCell;
         }
 
         private void OnDisable()
         {
             _head.OnCellChange -= HandleCellChanged;
+            _moveHandler.OnNewDirectionInput -= InputToCangeCell;
         }
 
         private void OnDestroy()
@@ -47,14 +52,18 @@ namespace SanderSaveli.Snake
 
         private void HandleCellChanged(Cell newCell)
         {
+            _moveTween?.Kill();
             Vector3 nextPosition = newCell.WorldPosition + _entityLayer;
-            transform.DOMove(nextPosition, _tickTime).SetEase(Ease.Linear);
-            Vector3 direction = nextPosition - transform.position;
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-            angle -= _initialAngel;
+            _moveTween = transform.DOMove(nextPosition, _tickTime).SetEase(Ease.Linear);
+        }
 
-            transform.DORotate(new Vector3(0, 0, angle), _tickTime /2);
+        private void InputToCangeCell(Direction dir)
+        {
+            _rotateTween?.Kill();
+            float angle = GetDirectionAndle(dir);
+            _rotateTween = transform.DORotate(new Vector3(0, 0, angle), _tickTime / 2)
+                .SetLink(gameObject);
         }
 
         private float GetInitialSpriteAngle()
@@ -69,6 +78,23 @@ namespace SanderSaveli.Snake
                     return 180;
                 case Direction.Right:
                     return 0;
+                default:
+                    throw new System.NotImplementedException("There is no case for Direction " + _headSpriteDirection); ;
+            }
+        }
+
+        private float GetDirectionAndle(Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.Up:
+                    return 90 - _initialAngel;
+                case Direction.Down:
+                    return -90 - _initialAngel;
+                case Direction.Left:
+                    return -180 - _initialAngel;
+                case Direction.Right:
+                    return 0 - _initialAngel;
                 default:
                     throw new System.NotImplementedException("There is no case for Direction " + _headSpriteDirection); ;
             }

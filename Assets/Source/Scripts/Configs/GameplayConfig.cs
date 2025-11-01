@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace SanderSaveli.Snake
@@ -16,12 +14,18 @@ namespace SanderSaveli.Snake
         [SerializeField] private int _carrotHealth = 40;
 
         [Space]
+        [Range(0, 1)]
+        [Header("Snake")]
+        [SerializeField] private float _coyoteTimeRelativeToTick = 0.2f;
+
+        [Space]
         [Header("Rabbit")]
         [SerializeField] private RabbitConfig _rabbitConfig;
 
         public float TickTime => 1 / _ticksPerSecond;
         public float GameDuration => _gameDuration;
         public int CarrotHealth => _carrotHealth;
+        public float CoyoteTime => TickTime * _coyoteTimeRelativeToTick;
         public RabbitConfig RabbitConfig => _rabbitConfig;
     }
 }

@@ -22,7 +22,6 @@ namespace SanderSaveli.Snake
 
         public void UpdateView(float amount)
         {
-            Debug.Log("Timer: " + amount);
             _progressImage.fillAmount = amount;
 
             if (amount <= _progressToRing)

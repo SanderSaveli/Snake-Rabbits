@@ -1,7 +1,7 @@
+using Cysharp.Threading.Tasks;
+using Microsoft.Win32.SafeHandles;
 using SanderSaveli.Snake;
 using System;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 
@@ -15,11 +15,14 @@ public class SnakeHead : TickableCellEntity
     [SerializeField] private TailManager _tailManager;
     private SignalBus _signalBus;
     private bool _isNeedSpawnTail;
+    private float _coyoteTime;
 
     [Inject]
-    public void Construct(SignalBus signalBus)
+    public void Construct(SignalBus signalBus, GameplayConfig gameplayConfig)
     {
         _signalBus = signalBus;
+        _coyoteTime = gameplayConfig.CoyoteTime;
+        Debug.Log("Coyote Time: " + _coyoteTime);
     }
 
     public override void CollideWithHead(SnakeHead snake, out bool IsKillSnake)
@@ -45,7 +48,7 @@ public class SnakeHead : TickableCellEntity
         _tailManager.InitSnakeTail(this);
     }
 
-    public override void Tick()
+    public async override void Tick()
     {
         _tailManager.MoveTailParts();
 
@@ -55,9 +58,31 @@ public class SnakeHead : TickableCellEntity
             _isNeedSpawnTail = false;
         }
 
-        Direction = _moveHandler.GetActualDirection();
+        if(Direction != _moveHandler.GetActualDirection())
+        {
+            Direction = _moveHandler.GetActualDirection();
+        }
+        else
+        {
+            Cell currCell = CurrentCell;
+            Vector2Int nextCellPos = HeadPosition + DirectionTool.DirectionToVector2(Direction);
+            if (GameField.IsInBounds(nextCellPos))
+            {
+                Cell nextCell = GameField[nextCellPos.x, nextCellPos.y];
+                CurrentCell = nextCell;
+                OnCellChange?.Invoke(nextCell);
+            }
+            Direction = await WaitCoyoteTime();
+            CurrentCell = currCell;
+            OnCellChange?.Invoke(CurrentCell);
+        }
+        ChangeCell();
+    }
+
+    private void ChangeCell()
+    {
         Vector2Int nextCellPos = HeadPosition + DirectionTool.DirectionToVector2(Direction);
-        if(!GameField.IsInBounds(nextCellPos))
+        if (!GameField.IsInBounds(nextCellPos))
         {
             Die();
             return;
@@ -65,10 +90,10 @@ public class SnakeHead : TickableCellEntity
 
         Cell nextCell = GameField[nextCellPos.x, nextCellPos.y];
 
-        if(nextCell.IsOccupied)
+        if (nextCell.IsOccupied)
         {
             nextCell.Entity.CollideWithHead(this, out bool isKill);
-            if(isKill)
+            if (isKill)
             {
                 return;
             }
@@ -76,5 +101,20 @@ public class SnakeHead : TickableCellEntity
         nextCell.SetEntity(this);
         CurrentCell = nextCell;
         OnCellChange?.Invoke(nextCell);
+    }
+
+    private async UniTask<Direction> WaitCoyoteTime()
+    {
+        float coyoteTimeCurr = _coyoteTime;
+        while (Direction == _moveHandler.GetActualDirection())
+        {
+            coyoteTimeCurr -= Time.deltaTime;
+            if( coyoteTimeCurr < 0 )
+            {
+                break;
+            }
+            await UniTask.Yield();
+        }
+        return _moveHandler.GetActualDirection();
     }
 }

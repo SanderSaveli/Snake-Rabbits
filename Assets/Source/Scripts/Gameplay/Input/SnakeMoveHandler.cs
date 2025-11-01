@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Zenject;
 
@@ -5,6 +6,7 @@ namespace SanderSaveli.Snake
 {
     public class SnakeMoveHandler : MonoBehaviour
     {
+        public Action<Direction> OnNewDirectionInput;
         [SerializeField] private SnakeHead _snakeHead;
         private Direction _direction;
         private SignalBus _signalBus;
@@ -40,6 +42,7 @@ namespace SanderSaveli.Snake
             if (DirectionTool.IsSide(_snakeHead.Direction, ctx.Direction))
             {
                 _direction = ctx.Direction;
+                OnNewDirectionInput?.Invoke(_direction);
             }
         }
     }

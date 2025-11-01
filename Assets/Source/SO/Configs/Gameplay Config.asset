@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c80fb3212d0c634a93e1de7e2ca74e6, type: 3}
   m_Name: Gameplay Config
   m_EditorClassIdentifier: 
-  _ticksPerSecond: 3
+  _ticksPerSecond: 3.1
   _gameDuration: 40
   _carrotHealth: 10
+  _coyoteTimeRelativeToTick: 0.25
   _rabbitConfig: {fileID: 11400000, guid: 2fb26e323a2432144a18eef516314008, type: 2}

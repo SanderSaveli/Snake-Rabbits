@@ -117,6 +117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _head: {fileID: 7830498143240092408}
+  _moveHandler: {fileID: 5881135428278222688}
   _headSpriteDirection: 0
 --- !u!114 &5881135428278222688
 MonoBehaviour:

@@ -61,13 +61,13 @@ namespace SanderSaveli.Snake
             lastTailPosition.z = 0;
             rawPoints.Add(lastTailPosition);
 
-            // —глаживаем путь (интерпол€ци€ между клетками)
             List<Vector3> smoothPoints = SmoothPath(rawPoints, _smoothStep);
 
-            // ќбновл€ем LineRenderer
             _lineRenderer.positionCount = smoothPoints.Count;
             for (int i = 0; i < smoothPoints.Count; i++)
+            {
                 _lineRenderer.SetPosition(i, smoothPoints[i] + _entityLayer);
+            }
         }
 
         private List<Vector3> SmoothPath(List<Vector3> points, float step)
@@ -86,6 +86,10 @@ namespace SanderSaveli.Snake
                 for (int s = 0; s < segments; s++)
                 {
                     float t = (float)s / segments;
+                    if(i  ==0 &&  s < 4)
+                    {
+                        continue;
+                    }
                     result.Add(Vector3.Lerp(a, b, t));
                 }
             }
