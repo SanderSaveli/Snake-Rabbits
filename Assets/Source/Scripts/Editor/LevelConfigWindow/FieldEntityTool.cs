@@ -7,5 +7,6 @@ namespace SanderSaveli.Snake
         Carrot = 2,
         Rabbit = 3,
         Obstacle = 4,
+        SnakeTail = 5,
     }
 }

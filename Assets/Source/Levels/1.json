@@ -1,0 +1,52 @@
+{
+    "level_number": 1,
+    "field_width": 10,
+    "field_height": 10,
+    "head_position": {
+        "x": 5,
+        "y": 3
+    },
+    "rabbit_positions": [
+        {
+            "x": 0,
+            "y": 8
+        },
+        {
+            "x": 9,
+            "y": 0
+        },
+        {
+            "x": 9,
+            "y": 9
+        }
+    ],
+    "carrot_positions": [
+        {
+            "x": 2,
+            "y": 1
+        },
+        {
+            "x": 2,
+            "y": 6
+        },
+        {
+            "x": 7,
+            "y": 1
+        },
+        {
+            "x": 7,
+            "y": 3
+        },
+        {
+            "x": 8,
+            "y": 2
+        },
+        {
+            "x": 8,
+            "y": 4
+        }
+    ],
+    "obstacle_positions": [],
+    "start_direction": 0,
+    "start_segmets": 5
+}

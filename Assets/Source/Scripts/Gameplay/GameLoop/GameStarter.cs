@@ -8,6 +8,7 @@ namespace SanderSaveli.Snake
         [Header("Components")]
         [SerializeField] private GameField _gameField;
         [SerializeField] private GameLoop _gameLoop;
+        [Header("Spawners")]
         [SerializeField] private CellEntitySpawner<Obstacle> _obstacleSpawner;
         [SerializeField] private CellEntitySpawner<Carrot> _carrotSpawner;
         [SerializeField] private CellEntitySpawner<Rabbit> _rabbitSpawner;

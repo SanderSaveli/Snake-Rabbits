@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -18,7 +19,8 @@ namespace SanderSaveli.Snake
             { FieldEntityTool.Rabbit, Color.white },
             { FieldEntityTool.Carrot, Color.yellow },
             { FieldEntityTool.SnakeHead, Color.blue },
-            { FieldEntityTool.Obstacle, Color.black }
+            { FieldEntityTool.Obstacle, Color.black },
+            { FieldEntityTool.SnakeTail, Color.cyan }
         };
 
         private readonly GUIStyle _centeredLabel = new(EditorStyles.label)
@@ -28,6 +30,10 @@ namespace SanderSaveli.Snake
 
         public void Draw(LevelConfig levelConfig)
         {
+            EditorGUILayout.LabelField("Snake", _centeredLabel);
+            levelConfig.start_direction = (Direction)EditorGUILayout.EnumPopup("Start direction: ", levelConfig.start_direction);
+            levelConfig.start_segmets = Mathf.Max(0, EditorGUILayout.IntField("Start segments: ", levelConfig.start_segmets));
+
             EditorGUILayout.LabelField("Field Size", _centeredLabel);
 
             int width = Mathf.Max(1, EditorGUILayout.IntField("Width (x): ", levelConfig.field_width));
@@ -46,12 +52,14 @@ namespace SanderSaveli.Snake
             EditorGUILayout.LabelField("Field", _centeredLabel);
 
             _entityTool = (FieldEntityTool)EditorGUILayout.EnumPopup("Active Tool", _entityTool);
+            AddTailSegments(levelConfig);
 
             DrawField(width, height);
-
             levelConfig.carrot_positions = GetAllCellsWithType(FieldEntityTool.Carrot);
             levelConfig.obstacle_positions = GetAllCellsWithType(FieldEntityTool.Obstacle);
             levelConfig.rabbit_positions = GetAllCellsWithType(FieldEntityTool.Rabbit);
+            levelConfig.head_position = FindHead();
+            DrawWarnings(levelConfig);
         }
 
         public void OpenNewConfig(LevelConfig levelConfig)
@@ -90,6 +98,10 @@ namespace SanderSaveli.Snake
 
         private void SetEntityAtCell(int x, int y)
         {
+            if (_entityTool == FieldEntityTool.SnakeHead)
+            {
+                _fieldMatrix.SetValue(FindHead(), FieldEntityTool.Empty);
+            }
             _fieldMatrix.SetValue(x, y, _entityTool);
         }
 
@@ -129,6 +141,70 @@ namespace SanderSaveli.Snake
                 }
             }
             return cells.ToList();
+        }
+
+        private void DrawWarnings(LevelConfig levelConfig)
+        {
+            if (levelConfig.rabbit_positions == null || levelConfig.rabbit_positions.Count == 0)
+            {
+                EditorGUILayout.HelpBox("There is no one RABBIT on the filed!", MessageType.Warning);
+            }
+            if (levelConfig.carrot_positions == null || levelConfig.carrot_positions.Count == 0)
+            {
+                EditorGUILayout.HelpBox("There is no one CARROT on the filed!", MessageType.Warning);
+            }
+            int headCount = _fieldMatrix.AllValues().FindAll(t => t == FieldEntityTool.SnakeHead).Count;
+            if (headCount > 1)
+            {
+                EditorGUILayout.HelpBox("There is too much head on field", MessageType.Error);
+            }
+            if (headCount < 1)
+            {
+                EditorGUILayout.HelpBox("There is no head on field", MessageType.Error);
+            }
+        }
+
+        private void AddTailSegments(LevelConfig config)
+        {
+            Direction tailDirection = DirectionTool.GetOpposite(config.start_direction);
+            for (int x = 0; x < _fieldMatrix.Width; x++)
+            {
+                for (int y = 0; y < _fieldMatrix.Width; y++)
+                {
+                    if (_fieldMatrix[x, y] == FieldEntityTool.SnakeTail)
+                    {
+                        _fieldMatrix.SetValue(x, y, FieldEntityTool.Empty);
+                    }
+                }
+            }
+            for (int i = 1; i <= config.start_segmets; i++)
+            {
+                try
+                {
+                    Vector2Int tailPos = config.head_position - (i * DirectionTool.DirectionToVector2(tailDirection));
+                    _fieldMatrix.SetValue(tailPos, FieldEntityTool.SnakeTail);
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogError(ex);
+                    break;
+                }
+            }
+        }
+
+        private Vector2Int FindHead()
+        {
+            for (int x = 0; x < _fieldMatrix.Width; x++)
+            {
+                for (int y = 0; y < _fieldMatrix.Width; y++)
+                {
+                    if (_fieldMatrix[x, y] == FieldEntityTool.SnakeHead)
+                    {
+                        return new Vector2Int(x, y);
+                    }
+                }
+            }
+            throw new Exception("There is no Head on the field");
         }
     }
 }

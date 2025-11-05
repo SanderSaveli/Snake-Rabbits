@@ -8,9 +8,9 @@ namespace SanderSaveli.Snake
     public class LevelConfigWindow : EditorWindow
     {
         private LevelConfig _config;
-        public const string LEVEL_PATH = "Assets/StreamingAssets/Levels/";
+        public const string LEVEL_PATH = "Assets/Source/Levels/";
         private List<IConfigGUIGroup> _configGUIGroups;
-
+        private Vector2 _scrollPos;
         private void OnEnable()
         {
             _configGUIGroups = new List<IConfigGUIGroup> {
@@ -39,6 +39,7 @@ namespace SanderSaveli.Snake
                 HandleNew();
             GUILayout.EndHorizontal();
 
+            _scrollPos = GUILayout.BeginScrollView(_scrollPos);
             if (_config != null)
             {
                 foreach (var group in _configGUIGroups)
@@ -46,6 +47,7 @@ namespace SanderSaveli.Snake
                     group.Draw(_config);
                 }
             }
+            GUILayout.EndScrollView();
         }
 
         private void HandleSave()
