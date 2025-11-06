@@ -8,14 +8,14 @@ namespace SanderSaveli.Snake
     public class LevelConfigWindow : EditorWindow
     {
         private LevelConfig _config;
-        public const string LEVEL_PATH = "Assets/Source/Levels/";
         private List<IConfigGUIGroup> _configGUIGroups;
         private Vector2 _scrollPos;
         private void OnEnable()
         {
             _configGUIGroups = new List<IConfigGUIGroup> {
-                new LevelNumberGroup(),
-                new FieldConfigGUI()
+                new NumberLevelGUIGroup(),
+                new StarLevelConfigGUIGroup(),
+                new FieldLevelGUIGroup()
             };
         }
 
@@ -23,6 +23,13 @@ namespace SanderSaveli.Snake
         public static void CreateWindow()
         {
             GetWindow<LevelConfigWindow>("LevelConfig");
+        }
+
+        public static void OpenWithLevel(string path)
+        {
+            var window = GetWindow<LevelConfigWindow>("LevelConfig");
+            window.LoadConfig(path);
+            window.Show();
         }
 
         private void OnGUI()
@@ -44,6 +51,7 @@ namespace SanderSaveli.Snake
             {
                 foreach (var group in _configGUIGroups)
                 {
+                    GUILayout.Space(10);
                     group.Draw(_config);
                 }
             }
@@ -53,7 +61,7 @@ namespace SanderSaveli.Snake
         private void HandleSave()
         {
             string fileName = $"{_config.level_number}.json";
-            string fullPath = Path.Combine(LEVEL_PATH, fileName);
+            string fullPath = Path.Combine(Const.LEVEL_FOLDER_PATH, fileName);
             string json = JsonUtility.ToJson(_config, true);
             File.WriteAllText(fullPath, json);
         }
@@ -62,7 +70,7 @@ namespace SanderSaveli.Snake
         {
             string path = EditorUtility.OpenFilePanel(
                 "Выберите LevelConfig JSON",
-                LEVEL_PATH,
+                Const.LEVEL_FOLDER_PATH,
                 "json"
             );
 
@@ -86,7 +94,7 @@ namespace SanderSaveli.Snake
             int levelNumber = GetNearestLevel();
             _config.level_number = levelNumber;
             string fileName = $"{levelNumber}.json";
-            string fullPath = Path.Combine(LEVEL_PATH, fileName);
+            string fullPath = Path.Combine(Const.LEVEL_FOLDER_PATH, fileName);
 
             string json = JsonUtility.ToJson(_config, true);
             File.WriteAllText(fullPath, json);
@@ -115,7 +123,7 @@ namespace SanderSaveli.Snake
         private int GetNearestLevel()
         {
             int level = 1;
-            while (File.Exists(LEVEL_PATH + level + ".json"))
+            while (File.Exists(Const.LEVEL_FOLDER_PATH + level + ".json"))
             {
                 level++;
             }

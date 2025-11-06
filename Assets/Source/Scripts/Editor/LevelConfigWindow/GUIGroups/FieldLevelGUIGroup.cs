@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace SanderSaveli.Snake
 {
-    public class FieldConfigGUI : IConfigGUIGroup
+    public class FieldLevelGUIGroup : IConfigGUIGroup
     {
         private FieldEntityTool _entityTool;
         private Matrix<FieldEntityTool> _fieldMatrix;
@@ -181,7 +181,9 @@ namespace SanderSaveli.Snake
             {
                 try
                 {
-                    Vector2Int tailPos = config.head_position - (i * DirectionTool.DirectionToVector2(tailDirection));
+                    Vector2Int dir = DirectionTool.DirectionToVector2(tailDirection);
+                    dir.y = -dir.y;
+                    Vector2Int tailPos = config.head_position + (i * dir);
                     _fieldMatrix.SetValue(tailPos, FieldEntityTool.SnakeTail);
                 }
                 catch (Exception ex)

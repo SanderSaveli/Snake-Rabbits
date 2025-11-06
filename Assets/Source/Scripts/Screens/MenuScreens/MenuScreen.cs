@@ -1,4 +1,5 @@
 using SanderSaveli.UDK.UI;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -7,16 +8,42 @@ namespace SanderSaveli.Snake
 {
     public class MenuScreen : UiScreen
     {
+        [SerializeField] private LevelFiller _levelFiller;
+
         [Header("Buttons")]
         [SerializeField] private Button _playButton;
         [SerializeField] private Button _exitButton;
 
         private SignalBus _signalBus;
+        private DataManager _dataManager;
+        private bool _isShow;
 
         [Inject]
-        public void Construct(SignalBus signalBus)
+        public void Construct(SignalBus signalBus, DataManager dataManager)
         {
             _signalBus = signalBus;
+            _dataManager = dataManager;
+        }
+
+        public override void Show(Action callback = null)
+        {
+            base.Show(callback);
+            if(!_isShow)
+            {
+                Debug.Log("Level count : " + _dataManager.Levels.Count);
+                _levelFiller.FillItems(_dataManager.Levels);
+                _isShow = true;
+            }
+        }
+
+        public override void ShowImmediately()
+        {
+            base.ShowImmediately();
+            if (!_isShow)
+            {
+                _levelFiller.FillItems(_dataManager.Levels);
+                _isShow = true;
+            }
         }
 
         protected override void SubscribeToEvents()

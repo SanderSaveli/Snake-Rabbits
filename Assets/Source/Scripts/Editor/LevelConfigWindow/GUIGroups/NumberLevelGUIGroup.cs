@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace SanderSaveli.Snake
 {
-    public class LevelNumberGroup : IConfigGUIGroup
+    public class NumberLevelGUIGroup : IConfigGUIGroup
     {
         private bool _isChangeLevelNumber =false;
         private int _originalLevelNumber;
@@ -38,7 +38,7 @@ namespace SanderSaveli.Snake
             GUILayout.EndHorizontal();
             if(_originalLevelNumber != levelConfig.level_number)
             {
-                if (File.Exists(LevelConfigWindow.LEVEL_PATH + levelConfig.level_number + ".json"))
+                if (File.Exists(Const.LEVEL_FOLDER_PATH + levelConfig.level_number + ".json"))
                 {
                     EditorGUILayout.HelpBox($"There is already a level with number {levelConfig.level_number}, it will be overwritten when saving!", MessageType.Warning);
                 }

@@ -50,7 +50,7 @@ namespace SanderSaveli.UDK.UI
                 _isSubcribed = true;
             }
 
-            if (_type != _selectedColor) ApplyColorSetting();
+            ApplyColorSetting();
         }
 
         private void OnDestroy()
@@ -62,10 +62,10 @@ namespace SanderSaveli.UDK.UI
         public void ChangeColor(Custom_ColorStyle style)
         {
             _selectedColor = style;
-            if (ColorSettings.Instance == null) return;
-            
             _type = _selectedColor;
             Change();
+            if (ColorSettings.Instance == null) return;
+            
         }
 
         public void ChangeColorWithAnimation(Custom_ColorStyle style, float duration = 0.4f)

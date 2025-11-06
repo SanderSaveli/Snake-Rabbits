@@ -1,0 +1,14 @@
+{
+    "level_number": 4,
+    "field_width": 10,
+    "field_height": 10,
+    "head_position": {
+        "x": 5,
+        "y": 3
+    },
+    "rabbit_positions": [],
+    "carrot_positions": [],
+    "obstacle_positions": [],
+    "start_direction": 3,
+    "start_segmets": 2
+}
