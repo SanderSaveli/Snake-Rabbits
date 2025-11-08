@@ -1,10 +1,9 @@
-﻿using UnityEngine;
-using UnityEditor;
-using System.IO;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Newtonsoft.Json;
 using SanderSaveli.Snake;
-using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.IO;
+using UnityEditor;
+using UnityEngine;
 
 public class LevelOrderWindow : EditorWindow
 {
@@ -21,26 +20,7 @@ public class LevelOrderWindow : EditorWindow
 
     private void OnEnable()
     {
-        LoadLevels();
-    }
-
-    private void LoadLevels()
-    {
-        if (!Directory.Exists(_levelsFolderPath))
-        {
-            Debug.LogWarning($"Folder {_levelsFolderPath} not found!");
-            levelFiles.Clear();
-            return;
-        }
-
-        levelFiles = Directory.GetFiles(_levelsFolderPath, "*.json")
-            .OrderBy(f =>
-            {
-                string name = Path.GetFileNameWithoutExtension(f);
-                if (int.TryParse(name, out int num)) return num;
-                return int.MaxValue;
-            })
-            .ToList();
+        levelFiles = LevelConfigLoader.GetAllConfigsPaths();
     }
 
     private void OnGUI()
@@ -91,7 +71,7 @@ public class LevelOrderWindow : EditorWindow
                 {
                     File.Delete(file);
                     AssetDatabase.Refresh();
-                    LoadLevels();
+                    levelFiles = LevelConfigLoader.GetAllConfigsPaths();
                     return;
                 }
             }
@@ -147,7 +127,7 @@ public class LevelOrderWindow : EditorWindow
         }
 
         AssetDatabase.Refresh();
-        LoadLevels();
+        levelFiles = LevelConfigLoader.GetAllConfigsPaths();
         EditorUtility.DisplayDialog("Done", "Levels successfully renamed!", "OK");
     }
 }

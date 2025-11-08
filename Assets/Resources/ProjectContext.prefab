@@ -106,6 +106,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30676e4b82a04fe43ad446e9ad9a2ffd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &5994201786829690660
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6333363587937772054}
+  - component: {fileID: 3234723183784720755}
+  m_Layer: 0
+  m_Name: LevelConfigTransistor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6333363587937772054
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5994201786829690660}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 852805242185602287}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3234723183784720755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5994201786829690660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe53af51a1c9afd488b5d62c2c4babd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6327740041997960197
 GameObject:
   m_ObjectHideFlags: 0
@@ -183,6 +227,7 @@ Transform:
   - {fileID: 2888766959643035617}
   - {fileID: 1666459248231504108}
   - {fileID: 1096202499422421256}
+  - {fileID: 6333363587937772054}
   m_Father: {fileID: 9063820062734357410}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6840928932405825782
@@ -199,6 +244,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sceneLoader: {fileID: 8537814615547080367}
   _dataManager: {fileID: 7755401571582909189}
+  _configTransistor: {fileID: 3234723183784720755}
 --- !u!1 &9153593964364861615
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,3 +289,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 439703abb3615c14895297e73f19195e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentLevel:
+    level_number: 0
+    max_score: 0
+    best_time: 0
+    star_count: 0

@@ -8,9 +8,9 @@ using UnityEngine.UI;
 
 namespace SanderSaveli.Snake
 {
-    public class LevelSlot : MonoBehaviour, ISlot<LevelData>
+    public class LevelSlot : MonoBehaviour, ISlot<LevelSaveData>
     {
-        public LevelData LevelData {  get; private set; }
+        public LevelSaveData LevelData {  get; private set; }
         public Action<LevelSlot> OnSelected; 
 
         [Header("Components")]
@@ -23,6 +23,7 @@ namespace SanderSaveli.Snake
         [SerializeField] private string _levelPrefix;
         [SerializeField] private Custom_ColorStyle _completeColor = Custom_ColorStyle.Green;
         [SerializeField] private Custom_ColorStyle _notUnlockColor = Custom_ColorStyle.Gray;
+        [SerializeField] private Custom_ColorStyle _currentColor = Custom_ColorStyle.Blue;
 
         private void OnEnable()
         {
@@ -34,19 +35,25 @@ namespace SanderSaveli.Snake
             _button.onClick.RemoveListener(ClickOnButton);
         }
 
-        public void Fill(LevelData value)
+        public void Fill(LevelSaveData value)
         {
             LevelData = value;
-            _backgroundColor.ChangeColor(value.IsPassed ? _completeColor : _notUnlockColor);
+            _backgroundColor.ChangeColor(value.is_complete ? _completeColor : _notUnlockColor);
             int i = 1;
-
+            _button.interactable = value.is_complete;
             foreach (var item in _stars)
             {
-                item.SetEnable(i <= value.Stars);
+                item.SetEnable(i <= value.star_count);
                 i++;
             }
 
-            _levelText.text = _levelPrefix + value.LevelNumber.ToString();
+            _levelText.text = _levelPrefix + value.level_number.ToString();
+        }
+
+        public void SetCurrent()
+        {
+            _button.interactable = true;
+            _backgroundColor.ChangeColor(_currentColor);
         }
 
         private void ClickOnButton()

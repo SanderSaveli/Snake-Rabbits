@@ -1,5 +1,6 @@
 using SanderSaveli.UDK.UI;
 using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -9,6 +10,7 @@ namespace SanderSaveli.Snake
     public class MenuScreen : UiScreen
     {
         [SerializeField] private LevelFiller _levelFiller;
+        [SerializeField] private LevelInfoPopup _levelPopup;
 
         [Header("Buttons")]
         [SerializeField] private Button _playButton;
@@ -31,7 +33,7 @@ namespace SanderSaveli.Snake
             if(!_isShow)
             {
                 Debug.Log("Level count : " + _dataManager.Levels.Count);
-                _levelFiller.FillItems(_dataManager.Levels);
+                _levelFiller.FillItems(_dataManager.Levels.ToList());
                 _isShow = true;
             }
         }
@@ -41,8 +43,14 @@ namespace SanderSaveli.Snake
             base.ShowImmediately();
             if (!_isShow)
             {
-                _levelFiller.FillItems(_dataManager.Levels);
+                _levelFiller.FillItems(_dataManager.Levels.ToList());
+                foreach(var slot in _levelFiller.Slots)
+                {
+                    slot.OnSelected += HandleLevelSelect;
+                }
+
                 _isShow = true;
+                OpenCurrentLevel();
             }
         }
 
@@ -57,17 +65,38 @@ namespace SanderSaveli.Snake
         {
             _playButton.onClick.RemoveListener(HandlePlay);
             _exitButton.onClick.RemoveListener(HandleExit);
+            foreach (var slot in _levelFiller.Slots)
+            {
+                slot.OnSelected -= HandleLevelSelect;
+            }
             base.UnsubscribeFromEvents();
         }
 
-        private void HandlePlay()
+        private async void HandlePlay()
         {
-            _signalBus.Fire(new SignalInputAction(InputActionType.LoadGame_Levels));
+            LevelData level = await _dataManager.GetFullLevelData(_dataManager.CurrentLevel);
+            _signalBus.Fire(new SignalInputOpenMenuPopup(UDK.MenuPopupType.LevelInfo));
+            _levelPopup.Init(level);
         }
 
         private void HandleExit()
         {
             _signalBus.Fire(new SignalInputAction(InputActionType.ExitGame));
+        }
+
+        private void OpenCurrentLevel()
+        {
+            Debug.Log("Curr level: " + _dataManager.CurrentLevel.level_number);
+            LevelSlot currentSlot = _levelFiller.Slots.FirstOrDefault(t => t.LevelData.level_number == _dataManager.CurrentLevel.level_number);
+
+            currentSlot.SetCurrent();
+        }
+
+        private async void HandleLevelSelect(LevelSlot levelSlot)
+        {
+            LevelData level = await _dataManager.GetFullLevelData(levelSlot.LevelData);
+            _signalBus.Fire(new SignalInputOpenMenuPopup(UDK.MenuPopupType.LevelInfo));
+            _levelPopup.Init(level);
         }
     }
 }

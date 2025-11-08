@@ -28,7 +28,7 @@ namespace SanderSaveli.Snake
         public static void OpenWithLevel(string path)
         {
             var window = GetWindow<LevelConfigWindow>("LevelConfig");
-            window.LoadConfig(path);
+            window.LoadDirectly(path);
             window.Show();
         }
 
@@ -60,10 +60,7 @@ namespace SanderSaveli.Snake
 
         private void HandleSave()
         {
-            string fileName = $"{_config.level_number}.json";
-            string fullPath = Path.Combine(Const.LEVEL_FOLDER_PATH, fileName);
-            string json = JsonUtility.ToJson(_config, true);
-            File.WriteAllText(fullPath, json);
+            LevelConfigLoader.SaveConfig(_config);
         }
 
         private void HandleLoad()
@@ -85,7 +82,7 @@ namespace SanderSaveli.Snake
                 return;
             }
 
-            LoadConfig(path);
+            LoadDirectly(path);
         }
 
         private void HandleNew()
@@ -99,24 +96,35 @@ namespace SanderSaveli.Snake
             string json = JsonUtility.ToJson(_config, true);
             File.WriteAllText(fullPath, json);
 
-            LoadConfig(fullPath);
+            LoadConfig(levelNumber);
         }
 
 
-        private void LoadConfig(string path)
+        private void LoadConfig(int levelNumber)
         {
-            try
+            LevelConfig config = LevelConfigLoader.LoadConfig(levelNumber);
+            if(config != null)
             {
-                string json = File.ReadAllText(path);
-                _config = JsonUtility.FromJson<LevelConfig>(json);
                 foreach (var group in _configGUIGroups)
                 {
                     group.OpenNewConfig(_config);
                 }
             }
-            catch (System.Exception e)
+        }
+
+        private void LoadDirectly(string path)
+        {
+            _config= LevelConfigLoader.LoadDirectly(path);
+            if (_config != null)
             {
-                Debug.LogError("Ошибка при загрузке LevelConfig: " + e.Message);
+                foreach (var group in _configGUIGroups)
+                {
+                    group.OpenNewConfig(_config);
+                }
+            }
+            else
+            {
+                Debug.LogError("Error loading conig, config is null");
             }
         }
 

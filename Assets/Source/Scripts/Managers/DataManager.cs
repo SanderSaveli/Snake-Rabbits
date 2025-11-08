@@ -1,6 +1,6 @@
-using Newtonsoft.Json;
+using Cysharp.Threading.Tasks;
+using SanderSaveli.UDK;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using UnityEngine;
 
@@ -8,33 +8,60 @@ namespace SanderSaveli.Snake
 {
     public class DataManager : MonoBehaviour
     {
-        public List<LevelData> Levels { get; private set; }
+        public IReadOnlyList<LevelSaveData> Levels => _levelDataManager.Levels;
+        public LevelSaveData CurrentLevel;
+        private LevelDataManager _levelDataManager;
+        private bool _isLevelLoaded;
 
         void Awake()
         {
-            Levels = LoadAllLevel();
+            _levelDataManager = new LevelDataManager(new JsonToFileStorageService());
+            if (_levelDataManager.IsLoaded)
+            {
+                LevelsLoaded();
+            }
+            else
+            {
+                _levelDataManager.OnAllLevelDataLoaded += LevelsLoaded;
+            }
         }
 
-        private List<LevelData> LoadAllLevel()
+        public async UniTask<LevelData> GetFullLevelData(LevelSaveData levelSaveData)
         {
-            List<LevelData> levels = new List<LevelData>();
-            List<string> names = Directory.GetFiles(Const.LEVEL_FOLDER_PATH, "*.json")
-                .OrderBy(f =>
-                {
-                    string name = Path.GetFileNameWithoutExtension(f);
-                    if (int.TryParse(name, out int num)) return num;
-                    return int.MaxValue;
-                })
-                .ToList();
+            await UniTask.WaitUntil(() => _isLevelLoaded);
+            return _levelDataManager.GetFullLevelData(levelSaveData);
+        }
 
-            foreach (string name in names)
+        public void UpdateLevelSave(LevelSaveData levelSaveData)
+        {
+            _levelDataManager.UpdateLevelData(levelSaveData);
+        }
+
+        public LevelSaveData GetLevelByNumber(int number)
+        {
+            return Levels.FirstOrDefault(t=> t.level_number == number);
+        }
+
+        private void LevelsLoaded()
+        {
+            _levelDataManager.OnAllLevelDataLoaded -= LevelsLoaded;
+            UpdateCurrentLevel();
+            _isLevelLoaded = true;
+
+        }
+
+        private void UpdateCurrentLevel()
+        {
+            Debug.Log("Update curr level");
+            LevelSaveData data = Levels.FirstOrDefault(t => !t.is_complete);
+            if(data.Equals(default(LevelSaveData)))
             {
-                string json = File.ReadAllText(name);
-                LevelConfig levelConfig = JsonConvert.DeserializeObject<LevelConfig>(json);
-                levels.Add(new LevelData(levelConfig, new LevelSaveData()));
+                CurrentLevel = Levels[Levels.Count - 1];
             }
-
-            return levels;
+            else
+            {
+                CurrentLevel = data;
+            }
         }
     }
 }

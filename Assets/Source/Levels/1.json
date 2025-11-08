@@ -1,7 +1,7 @@
 {
     "level_number": 1,
     "score_for_first_star": 100,
-    "score_for_second_star": 400,
+    "score_for_second_star": 200,
     "score_for_third_star": 300,
     "field_width": 10,
     "field_height": 10,

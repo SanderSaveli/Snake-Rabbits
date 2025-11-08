@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SanderSaveli.Snake
 {
-    public class LevelFiller : SlotFiller<LevelSlot, LevelData>
+    public class LevelFiller : SlotFiller<LevelSlot, LevelSaveData>
     {
         public List<LevelSlot> Slots => _slots;
     }

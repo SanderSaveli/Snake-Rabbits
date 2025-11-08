@@ -27,13 +27,19 @@ namespace SanderSaveli.UDK
         {
             string path = BuildPath(key);
 
+            if (!File.Exists(path))
+            {
+                File.Create(path);
+                callback?.Invoke(default(T));
+                return;
+            }
+            T data;
             using (var fileStream = new StreamReader(path))
             {
                 string jsonFile = fileStream.ReadToEnd();
-                T data = JsonConvert.DeserializeObject<T>(jsonFile);
-
-                callback.Invoke(data);
+                data = JsonConvert.DeserializeObject<T>(jsonFile);
             }
+            callback.Invoke(data);
         }
 
         private string BuildPath(string key) =>
