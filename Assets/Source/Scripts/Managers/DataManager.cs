@@ -10,6 +10,8 @@ namespace SanderSaveli.Snake
     {
         public IReadOnlyList<LevelSaveData> Levels => _levelDataManager.Levels;
         public LevelSaveData CurrentLevel;
+        public int TotalLevels => Levels.Count;
+
         private LevelDataManager _levelDataManager;
         private bool _isLevelLoaded;
 

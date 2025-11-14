@@ -27,7 +27,9 @@ namespace SanderSaveli.Snake
             {
                 return _cachedData[saveData.level_number];
             }
-            return CreateNewLevelData(saveData);
+            LevelData levelData = CreateNewLevelData(saveData);
+            _cachedData.Add(saveData.level_number, levelData);
+            return levelData;
         }
 
         public void UpdateLevelData(LevelSaveData levelData)
@@ -54,8 +56,12 @@ namespace SanderSaveli.Snake
 
         private void FillLevels(List<LevelSaveData> levelSaveDatas)
         {
-            UnityEngine.Debug.Log("Levels loaded");
             if (levelSaveDatas == null || levelSaveDatas.Count == 0)
+            {
+                levelSaveDatas = InitLevels();
+            }
+            List<string> levels = LevelConfigLoader.GetAllConfigsPaths();
+            if(levelSaveDatas.Count != levels.Count)
             {
                 levelSaveDatas = InitLevels();
             }
@@ -84,7 +90,6 @@ namespace SanderSaveli.Snake
             {
                 LevelConfig levelConfig = LevelConfigLoader.LoadConfig(saveData.level_number);
                 LevelData levelData = new LevelData(levelConfig, saveData);
-                _cachedData.Add(saveData.level_number, levelData);
                 return levelData;
             }
             catch (Exception ex)

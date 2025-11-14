@@ -32,13 +32,13 @@ namespace SanderSaveli.Snake
 
         public static List<string> GetAllConfigsPaths()
         {
-            if (!Directory.Exists(Const.LEVEL_PROGRESS_PATH))
+            if (!Directory.Exists(Const.LEVEL_FOLDER_PATH))
             {
-                Debug.LogWarning($"Folder {Const.LEVEL_PROGRESS_PATH} not found!");
+                Debug.LogWarning($"Folder {Const.LEVEL_FOLDER_PATH} not found!");
                 return new List<string>();
             }
 
-            return Directory.GetFiles(Const.LEVEL_PROGRESS_PATH, "*.json")
+            return Directory.GetFiles(Const.LEVEL_FOLDER_PATH, "*.json")
                 .OrderBy(f =>
                 {
                     string name = Path.GetFileNameWithoutExtension(f);

@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using UnityEngine;
+using Zenject;
 
 namespace SanderSaveli.Snake
 {
@@ -17,13 +18,21 @@ namespace SanderSaveli.Snake
         [Header("Configs")]
         [SerializeField] private LevelConfigSO _levelConfig;
         [SerializeField] private TextAsset _levelJSON;
+        private LevelConfig _currentLevelFromTransistor;
+
+
+        [Inject]
+        public void Construct(LevelConfigTransitor levelConfigTransitor)
+        {
+            _currentLevelFromTransistor = levelConfigTransitor.Config;
+        }
 
         private LevelConfig GetLevelConfig()
         {
             switch (_loadType)
             {
                 case ConfigLoadType.LevelList:
-                    throw new System.NotImplementedException();
+                    return _currentLevelFromTransistor;
                 case ConfigLoadType.DirectConfigSO:
                     return _levelConfig.ToConfig();
                 case ConfigLoadType.DirectConfigJSON:

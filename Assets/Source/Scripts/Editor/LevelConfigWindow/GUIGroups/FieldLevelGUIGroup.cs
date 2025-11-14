@@ -69,7 +69,7 @@ namespace SanderSaveli.Snake
 
         private void DrawField(int width, int height)
         {
-            for (int y = 0; y < height; y++)
+            for (int y = height -1; y >= 0 ; y--)
             {
                 GUILayout.BeginHorizontal(GUILayout.Height(15));
                 for (int x = 0; x < width; x++)
@@ -182,7 +182,6 @@ namespace SanderSaveli.Snake
                 try
                 {
                     Vector2Int dir = DirectionTool.DirectionToVector2(tailDirection);
-                    dir.y = -dir.y;
                     Vector2Int tailPos = config.head_position + (i * dir);
                     _fieldMatrix.SetValue(tailPos, FieldEntityTool.SnakeTail);
                 }

@@ -1,14 +1,35 @@
 {
     "level_number": 2,
-    "field_width": 10,
-    "field_height": 10,
+    "score_for_first_star": 10,
+    "score_for_second_star": 50,
+    "score_for_third_star": 100,
+    "field_width": 8,
+    "field_height": 8,
     "head_position": {
-        "x": 0,
-        "y": 0
+        "x": 3,
+        "y": 3
     },
-    "rabbit_positions": [],
-    "carrot_positions": [],
+    "rabbit_positions": [
+        {
+            "x": 1,
+            "y": 7
+        },
+        {
+            "x": 6,
+            "y": 0
+        }
+    ],
+    "carrot_positions": [
+        {
+            "x": 1,
+            "y": 1
+        },
+        {
+            "x": 6,
+            "y": 6
+        }
+    ],
     "obstacle_positions": [],
     "start_direction": 0,
-    "start_segmets": 0
+    "start_segmets": 2
 }

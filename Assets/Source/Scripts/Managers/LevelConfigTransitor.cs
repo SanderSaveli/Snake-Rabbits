@@ -9,6 +9,7 @@ namespace SanderSaveli.Snake
         public void SetLevel(int level_number)
         {
             Config = LevelConfigLoader.LoadConfig(level_number);
+            Debug.Log("Config Loaded " + Config.level_number);
         }
     }
 }

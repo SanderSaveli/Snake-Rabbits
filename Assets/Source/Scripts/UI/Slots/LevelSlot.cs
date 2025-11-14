@@ -1,7 +1,6 @@
 using CustomText;
 using SanderSaveli.UDK.UI;
 using System;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,12 +9,12 @@ namespace SanderSaveli.Snake
 {
     public class LevelSlot : MonoBehaviour, ISlot<LevelSaveData>
     {
-        public LevelSaveData LevelData {  get; private set; }
-        public Action<LevelSlot> OnSelected; 
+        public LevelSaveData LevelData { get; private set; }
+        public Action<LevelSlot> OnSelected;
 
         [Header("Components")]
         [SerializeField] private TMP_Text _levelText;
-        [SerializeField] private List<StarView> _stars;
+        [SerializeField] private StarGroupView _stars;
         [SerializeField] private Button _button;
         [SerializeField] private ImageColorByType _backgroundColor;
 
@@ -39,14 +38,8 @@ namespace SanderSaveli.Snake
         {
             LevelData = value;
             _backgroundColor.ChangeColor(value.is_complete ? _completeColor : _notUnlockColor);
-            int i = 1;
             _button.interactable = value.is_complete;
-            foreach (var item in _stars)
-            {
-                item.SetEnable(i <= value.star_count);
-                i++;
-            }
-
+            _stars.ShowStars(value.star_count);
             _levelText.text = _levelPrefix + value.level_number.ToString();
         }
 

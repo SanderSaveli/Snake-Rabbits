@@ -1,8 +1,8 @@
 {
     "level_number": 1,
-    "score_for_first_star": 100,
-    "score_for_second_star": 200,
-    "score_for_third_star": 300,
+    "score_for_first_star": 20,
+    "score_for_second_star": 50,
+    "score_for_third_star": 100,
     "field_width": 10,
     "field_height": 10,
     "head_position": {
@@ -50,6 +50,6 @@
         }
     ],
     "obstacle_positions": [],
-    "start_direction": 0,
-    "start_segmets": 5
+    "start_direction": 1,
+    "start_segmets": 2
 }
