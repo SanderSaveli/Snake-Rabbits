@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
@@ -51,8 +52,14 @@ namespace SanderSaveli.Snake
             {
                 foreach (var group in _configGUIGroups)
                 {
-                    GUILayout.Space(10);
-                    group.Draw(_config);
+                    try
+                    {
+                        GUILayout.Space(10);
+                        group.Draw(_config);
+                    }catch (Exception  ex)
+                    {
+                        Debug.Log(ex);
+                    }
                 }
             }
             GUILayout.EndScrollView();

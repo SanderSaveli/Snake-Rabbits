@@ -8,7 +8,7 @@ namespace SanderSaveli.Snake
     {
         public GraficConfig GraficConfig => _graficConfig;
         public GameplayConfig GameplayConfig => _gameplayConfig;
-        public LevelConfig LevelConfig => GetLevelConfig();
+        public LevelConfig LevelConfig => GetLevelConfig(_loadType);
 
         [SerializeField] private ConfigLoadType _loadType;
 
@@ -27,12 +27,20 @@ namespace SanderSaveli.Snake
             _currentLevelFromTransistor = levelConfigTransitor.Config;
         }
 
-        private LevelConfig GetLevelConfig()
+        private LevelConfig GetLevelConfig(ConfigLoadType loadType)
         {
-            switch (_loadType)
+            switch (loadType)
             {
                 case ConfigLoadType.LevelList:
-                    return _currentLevelFromTransistor;
+                    if(_currentLevelFromTransistor != null)
+                    {
+                        return _currentLevelFromTransistor;
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"Level List Config is null, use fallback config instance {nameof(ConfigLoadType.DirectConfigJSON)}");
+                        return GetLevelConfig(ConfigLoadType.DirectConfigJSON);
+                    }
                 case ConfigLoadType.DirectConfigSO:
                     return _levelConfig.ToConfig();
                 case ConfigLoadType.DirectConfigJSON:

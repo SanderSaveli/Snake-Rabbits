@@ -28,6 +28,7 @@ public class GameSceneInstaller : MonoInstaller
         #region Signals
         Container.DeclareSignal<SignalGameEnd>();
         Container.DeclareSignal<SignalGameStart>();
+        Container.DeclareSignal<SignalGamePauseStatusChange>();
         Container.DeclareSignal<SignalDoPostGameAction>();
         Container.DeclareSignal<SignalInputChangeDirection>();
 

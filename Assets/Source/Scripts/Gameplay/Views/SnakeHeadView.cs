@@ -31,6 +31,8 @@ namespace SanderSaveli.Snake
             _moveTween = DOTween.Sequence(this);
             _initialAngel = GetInitialSpriteAngle();
             transform.position = _head.CurrentCell.View.transform.position + _entityLayer;
+            float andle = GetDirectionAndle(_head.Direction);
+            transform.rotation = Quaternion.Euler(0, 0,andle);
         }
 
         private void OnEnable()

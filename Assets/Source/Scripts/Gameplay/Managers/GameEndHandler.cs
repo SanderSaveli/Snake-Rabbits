@@ -35,6 +35,7 @@ namespace SanderSaveli.Snake
 
         private async void HandleGameEnd(SignalGameEnd ctx)
         {
+            _signalBus.Fire(new SignalGamePauseStatusChange(true)); 
             SignalDoPostGameAction doPostGameAction = new SignalDoPostGameAction(ctx.IsWin);
             _signalBus.Fire(doPostGameAction);
             List<UniTask> actions = new List<UniTask>(doPostGameAction.Subscribers);
@@ -63,10 +64,10 @@ namespace SanderSaveli.Snake
 
         private void CheckForNewRecord(LevelSaveData currData)
         {
-            LevelSaveData bestData = _dataManager.GetLevelByNumber(_levelConfig.level_number);
-            if(currData.max_score > bestData.max_score)
+            LevelSaveData lastData = _dataManager.GetLevelByNumber(_levelConfig.level_number);
+            if(currData.max_score > lastData.max_score)
             {
-                _dataManager.UpdateLevelSave(bestData);
+                _dataManager.UpdateLevelSave(currData);
             }
         }
 

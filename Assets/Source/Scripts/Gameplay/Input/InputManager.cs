@@ -8,11 +8,12 @@ namespace SanderSaveli.Snake
         Keyboard = 0,
         Dpad = 1,
     }
-    public class KeyboardInputManager : MonoBehaviour
+    public class InputManager : MonoBehaviour
     {
         [SerializeField] private InputType _inputType;
         [SerializeField] private DPad _pad;
         private SignalBus _signalBus;
+        private bool _isActive = true;
 
         [Inject]
         public void Construct(SignalBus signalBus)
@@ -30,6 +31,7 @@ namespace SanderSaveli.Snake
             {
                 _pad.OnInputDirection += HandleInput;
             }
+            _signalBus.Subscribe<SignalGamePauseStatusChange>(HandlePauseStatusChange);
         }
 
         private void OnDisable()
@@ -38,6 +40,7 @@ namespace SanderSaveli.Snake
             {
                 _pad.OnInputDirection -= HandleInput;
             }
+            _signalBus.Unsubscribe<SignalGamePauseStatusChange>(HandlePauseStatusChange);
         }
 
         private void Update()
@@ -50,6 +53,10 @@ namespace SanderSaveli.Snake
 
         private void HandleKeyboardInput()
         {
+            if (!_isActive)
+            {
+                return;
+            }
             if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
             {
                 _signalBus.Fire(new SignalInputChangeDirection(Direction.Up));
@@ -70,7 +77,16 @@ namespace SanderSaveli.Snake
 
         private void HandleInput(Direction direction)
         {
+            if(!_isActive)
+            {
+                return;
+            }
             _signalBus.Fire(new SignalInputChangeDirection(direction));
+        }
+
+        private void HandlePauseStatusChange(SignalGamePauseStatusChange ctx)
+        {
+            _isActive = !ctx.IsPause;
         }
     }
 }

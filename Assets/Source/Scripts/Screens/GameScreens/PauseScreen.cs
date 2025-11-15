@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -10,13 +11,6 @@ namespace SanderSaveli.Snake
         [SerializeField] private Button _resume;
         [SerializeField] private Button _restart;
         [SerializeField] private Button _exitToMenu;
-        private SignalBus _signalBus;
-
-        [Inject]
-        public void Construct(SignalBus signalBus)
-        {
-            _signalBus = signalBus;
-        }
 
         protected override void SubscribeToEvents()
         {

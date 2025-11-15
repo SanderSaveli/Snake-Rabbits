@@ -1,26 +1,26 @@
 {
     "level_number": 1,
-    "score_for_first_star": 20,
-    "score_for_second_star": 50,
-    "score_for_third_star": 100,
-    "field_width": 10,
-    "field_height": 10,
+    "score_for_first_star": 0,
+    "score_for_second_star": 20,
+    "score_for_third_star": 40,
+    "field_width": 7,
+    "field_height": 7,
     "head_position": {
-        "x": 5,
+        "x": 3,
         "y": 3
     },
     "rabbit_positions": [
         {
             "x": 0,
-            "y": 8
+            "y": 6
         },
         {
-            "x": 9,
+            "x": 2,
             "y": 0
         },
         {
-            "x": 9,
-            "y": 9
+            "x": 6,
+            "y": 5
         }
     ],
     "carrot_positions": [
@@ -30,26 +30,19 @@
         },
         {
             "x": 2,
-            "y": 6
+            "y": 5
         },
         {
-            "x": 7,
-            "y": 1
-        },
-        {
-            "x": 7,
+            "x": 5,
             "y": 3
-        },
-        {
-            "x": 8,
-            "y": 2
-        },
-        {
-            "x": 8,
-            "y": 4
         }
     ],
-    "obstacle_positions": [],
-    "start_direction": 1,
+    "obstacle_positions": [
+        {
+            "x": 1,
+            "y": 2
+        }
+    ],
+    "start_direction": 0,
     "start_segmets": 2
 }

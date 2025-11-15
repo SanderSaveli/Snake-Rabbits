@@ -22,10 +22,12 @@ namespace SanderSaveli.Snake
             {
                 LevelsLoaded();
             }
-            else
-            {
-                _levelDataManager.OnAllLevelDataLoaded += LevelsLoaded;
-            }
+            _levelDataManager.OnLevelDataUpdated += LevelsLoaded;
+        }
+
+        private void OnDestroy()
+        {
+            _levelDataManager.OnLevelDataUpdated -= LevelsLoaded;
         }
 
         public async UniTask<LevelData> GetFullLevelData(LevelSaveData levelSaveData)
@@ -46,10 +48,8 @@ namespace SanderSaveli.Snake
 
         private void LevelsLoaded()
         {
-            _levelDataManager.OnAllLevelDataLoaded -= LevelsLoaded;
             UpdateCurrentLevel();
             _isLevelLoaded = true;
-
         }
 
         private void UpdateCurrentLevel()

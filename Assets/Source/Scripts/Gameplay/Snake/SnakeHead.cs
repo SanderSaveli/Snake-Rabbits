@@ -18,10 +18,11 @@ public class SnakeHead : TickableCellEntity
     private float _coyoteTime;
 
     [Inject]
-    public void Construct(SignalBus signalBus, GameplayConfig gameplayConfig)
+    public void Construct(SignalBus signalBus, GameplayConfig gameplayConfig, LevelConfig levelConfig)
     {
         _signalBus = signalBus;
         _coyoteTime = gameplayConfig.CoyoteTime;
+        Direction = levelConfig.start_direction;
         Debug.Log("Coyote Time: " + _coyoteTime);
     }
 

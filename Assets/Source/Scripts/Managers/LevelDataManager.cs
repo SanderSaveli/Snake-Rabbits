@@ -8,7 +8,7 @@ namespace SanderSaveli.Snake
     public class LevelDataManager
     {
         public IReadOnlyList<LevelSaveData> Levels => _levels;
-        public Action OnAllLevelDataLoaded { get; set; }
+        public Action OnLevelDataUpdated { get; set; }
         public bool IsLoaded { get; private set; }
 
         private IStorageService _storageService;
@@ -39,10 +39,11 @@ namespace SanderSaveli.Snake
                 if (_levels[i].level_number == levelData.level_number)
                 {
                     _levels[i] = levelData;
+                    UnityEngine.Debug.Log("Data Updated!");
                     break;
                 }
             }
-            _storageService.Save(Const.LEVEL_PROGRESS_PATH, _levels);
+            _storageService.Save(Const.LEVEL_PROGRESS_PATH, _levels, LogLevels);
 
             if (_cachedData.ContainsKey(levelData.level_number))
             {
@@ -58,18 +59,24 @@ namespace SanderSaveli.Snake
         {
             if (levelSaveDatas == null || levelSaveDatas.Count == 0)
             {
+                UnityEngine.Debug.LogWarning("Empty Level Save Data, Create new save");
                 levelSaveDatas = InitLevels();
+                _storageService.Save(Const.LEVEL_PROGRESS_PATH, levelSaveDatas);
             }
-            List<string> levels = LevelConfigLoader.GetAllConfigsPaths();
-            if(levelSaveDatas.Count != levels.Count)
+
+            List<string> configs = LevelConfigLoader.GetAllConfigsPaths();
+            if (levelSaveDatas.Count != configs.Count)
             {
-                levelSaveDatas = InitLevels();
+                UnityEngine.Debug.LogWarning($"Discrepancy config count and save count. \n ConfigCount: {configs.Count} \n SaveCount: {levelSaveDatas.Count}");
+                levelSaveDatas = InitLevels(levelSaveDatas, configs.Count);
+                _storageService.Save(Const.LEVEL_PROGRESS_PATH, levelSaveDatas);
             }
 
             levelSaveDatas = levelSaveDatas.OrderBy(t => t.level_number).ToList();
             _levels = levelSaveDatas;
             IsLoaded = true;
-            OnAllLevelDataLoaded?.Invoke();
+            OnLevelDataUpdated?.Invoke();
+            LogLevels();
         }
 
         private List<LevelSaveData> InitLevels()
@@ -80,9 +87,28 @@ namespace SanderSaveli.Snake
             {
                 levelSaveDatas.Add(new LevelSaveData(config.level_number, 0, 0, 0));
             }
-            _storageService.Save(Const.LEVEL_PROGRESS_PATH, levelSaveDatas);
             return levelSaveDatas;
         }
+
+        private List<LevelSaveData> InitLevels(List<LevelSaveData> levelSaveDatas, int needLevelsData)
+        {
+            List<LevelSaveData> levels = new List<LevelSaveData>(levelSaveDatas);
+
+            if (levels.Count < needLevelsData)
+            {
+                for (int i = levels.Count; i < needLevelsData; i++)
+                {
+                    levels.Add(new LevelSaveData(i + 1, 0, 0, 0));
+                }
+            }
+            else if (levels.Count > needLevelsData)
+            {
+                levels.RemoveRange(needLevelsData - 1, levels.Count - needLevelsData);
+            }
+
+            return levels;
+        }
+
 
         private LevelData CreateNewLevelData(LevelSaveData saveData)
         {
@@ -97,6 +123,21 @@ namespace SanderSaveli.Snake
                 UnityEngine.Debug.LogError(ex.Message);
                 return null;
             }
+        }
+
+        private void LogLevels()
+        {
+            UnityEngine.Debug.Log("All levels Saves:");
+            foreach (var level in _levels)
+            {
+                UnityEngine.Debug.Log($"Number: {level.level_number}\nScore: {level.max_score}\nStarCount: {level.star_count}");
+            }
+        }
+
+        private void LogLevels(bool _)
+        {
+            OnLevelDataUpdated?.Invoke();
+            LogLevels();
         }
     }
 }
