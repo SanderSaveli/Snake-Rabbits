@@ -1,7 +1,9 @@
+using Cysharp.Threading.Tasks;
 using SanderSaveli.UDK;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace SanderSaveli.Snake
 {
@@ -18,6 +20,13 @@ namespace SanderSaveli.Snake
         public LevelDataManager(IStorageService storageService)
         {
             _storageService = storageService;
+            Init();
+        }
+
+        private async void Init()
+        {
+            await UniTask.Yield();
+            Debug.Log("Constructor");
             _storageService.Load<List<LevelSaveData>>(Const.LEVEL_PROGRESS_PATH, FillLevels);
         }
 
@@ -57,14 +66,17 @@ namespace SanderSaveli.Snake
 
         private void FillLevels(List<LevelSaveData> levelSaveDatas)
         {
+            Debug.Log("Fill levels ");
             if (levelSaveDatas == null || levelSaveDatas.Count == 0)
             {
-                UnityEngine.Debug.LogWarning("Empty Level Save Data, Create new save");
+                Debug.LogWarning("Empty Level Save Data, Create new save");
                 levelSaveDatas = InitLevels();
                 _storageService.Save(Const.LEVEL_PROGRESS_PATH, levelSaveDatas);
             }
-
+            Debug.Log("levels Count " + levelSaveDatas.Count);
+            Debug.Log("ConfigsPaths: ");
             List<string> configs = LevelConfigLoader.GetAllConfigsPaths();
+            Debug.Log("Paths count: " + configs.Count);
             if (levelSaveDatas.Count != configs.Count)
             {
                 UnityEngine.Debug.LogWarning($"Discrepancy config count and save count. \n ConfigCount: {configs.Count} \n SaveCount: {levelSaveDatas.Count}");
@@ -83,6 +95,7 @@ namespace SanderSaveli.Snake
         {
             List<LevelSaveData> levelSaveDatas = new List<LevelSaveData>();
             List<LevelConfig> levelConfig = LevelConfigLoader.LoadAllLevel();
+            Debug.Log("Level Conigs count: " +  levelConfig.Count); 
             foreach (LevelConfig config in levelConfig)
             {
                 levelSaveDatas.Add(new LevelSaveData(config.level_number, 0, 0, 0));

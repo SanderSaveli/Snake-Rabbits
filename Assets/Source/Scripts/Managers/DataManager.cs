@@ -8,6 +8,7 @@ namespace SanderSaveli.Snake
 {
     public class DataManager : MonoBehaviour
     {
+        public bool IsLevelLoaded => _isLevelLoaded;
         public IReadOnlyList<LevelSaveData> Levels => _levelDataManager.Levels;
         public LevelSaveData CurrentLevel;
         public int TotalLevels => Levels.Count;
@@ -15,13 +16,15 @@ namespace SanderSaveli.Snake
         private LevelDataManager _levelDataManager;
         private bool _isLevelLoaded;
 
-        void Awake()
+        public void Awake()
         {
             _levelDataManager = new LevelDataManager(new JsonToFileStorageService());
             if (_levelDataManager.IsLoaded)
             {
+                Debug.Log("levels load from  DataManager");
                 LevelsLoaded();
             }
+            Debug.Log("subscribe to event");
             _levelDataManager.OnLevelDataUpdated += LevelsLoaded;
         }
 

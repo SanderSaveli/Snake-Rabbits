@@ -26,11 +26,17 @@ namespace SanderSaveli.UDK
         public void Load<T>(string key, Action<T> callback)
         {
             string path = BuildPath(key);
+            string directory = Path.GetDirectoryName(path);
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
 
             if (!File.Exists(path))
             {
-                File.Create(path);
-                callback?.Invoke(default(T));
+                Debug.Log("File does not exist, creating empty file");
+                File.Create(path).Dispose();
+                callback.Invoke(default);
                 return;
             }
             T data;

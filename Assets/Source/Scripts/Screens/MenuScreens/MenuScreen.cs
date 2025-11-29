@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using SanderSaveli.UDK.UI;
 using System;
 using System.Linq;
@@ -38,11 +39,15 @@ namespace SanderSaveli.Snake
             }
         }
 
-        public override void ShowImmediately()
+        public override async void ShowImmediately()
         {
+            Debug.Log("Show Immediatley");
             base.ShowImmediately();
             if (!_isShow)
             {
+                await UniTask.WaitUntil(() => _dataManager.IsLevelLoaded);
+                Debug.Log("_levelFiller: " + _levelFiller);
+                Debug.Log("_dataManager: " + _dataManager);
                 _levelFiller.FillItems(_dataManager.Levels.ToList());
                 foreach(var slot in _levelFiller.Slots)
                 {
