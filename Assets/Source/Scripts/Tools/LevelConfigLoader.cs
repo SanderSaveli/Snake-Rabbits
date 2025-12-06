@@ -115,7 +115,7 @@ namespace SanderSaveli.Snake
 
             return files
                 .OrderBy(f => ParseLevelNumber(f.name))
-                .Select(f => $"Levels/{f.name}")   // псевдо-путь
+                .Select(f => $"{Const.LEVEL_FOLDER_PATH}{f.name}.json")   // псевдо-путь
                 .ToList();
 
 #else

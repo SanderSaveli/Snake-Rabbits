@@ -228,6 +228,7 @@ Transform:
   - {fileID: 1666459248231504108}
   - {fileID: 1096202499422421256}
   - {fileID: 6333363587937772054}
+  - {fileID: 5321438058452301365}
   m_Father: {fileID: 9063820062734357410}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6840928932405825782
@@ -245,6 +246,52 @@ MonoBehaviour:
   _sceneLoader: {fileID: 8537814615547080367}
   _dataManager: {fileID: 7755401571582909189}
   _configTransistor: {fileID: 3234723183784720755}
+  _snakeTextManager: {fileID: 492838420816272081}
+--- !u!1 &9093840676075025754
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5321438058452301365}
+  - component: {fileID: 492838420816272081}
+  m_Layer: 0
+  m_Name: TextManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5321438058452301365
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9093840676075025754}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 852805242185602287}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &492838420816272081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9093840676075025754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd5b16f453024f74ba304cb283779d2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isLocalInBuild: 1
 --- !u!1 &9153593964364861615
 GameObject:
   m_ObjectHideFlags: 0

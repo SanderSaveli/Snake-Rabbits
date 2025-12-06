@@ -23,7 +23,6 @@ public class SnakeHead : TickableCellEntity
         _signalBus = signalBus;
         _coyoteTime = gameplayConfig.CoyoteTime;
         Direction = levelConfig.start_direction;
-        Debug.Log("Coyote Time: " + _coyoteTime);
     }
 
     public override void CollideWithHead(SnakeHead snake, out bool IsKillSnake)

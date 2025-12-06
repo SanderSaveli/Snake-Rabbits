@@ -54,7 +54,6 @@ namespace SanderSaveli.UDK
             {
                 if (EnableLogging)
                     Debug.Log($"[APIServer] URL: {url}\nMethod: {method}\nBody: {body}");
-
                 yield return request.SendWebRequest();
                 HandleResponse(request, callback, error);
             }

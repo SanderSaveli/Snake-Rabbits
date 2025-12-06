@@ -41,13 +41,10 @@ namespace SanderSaveli.Snake
 
         public override async void ShowImmediately()
         {
-            Debug.Log("Show Immediatley");
             base.ShowImmediately();
             if (!_isShow)
             {
                 await UniTask.WaitUntil(() => _dataManager.IsLevelLoaded);
-                Debug.Log("_levelFiller: " + _levelFiller);
-                Debug.Log("_dataManager: " + _dataManager);
                 _levelFiller.FillItems(_dataManager.Levels.ToList());
                 foreach(var slot in _levelFiller.Slots)
                 {
@@ -91,7 +88,6 @@ namespace SanderSaveli.Snake
 
         private void OpenCurrentLevel()
         {
-            Debug.Log("Curr level: " + _dataManager.CurrentLevel.level_number);
             LevelSlot currentSlot = _levelFiller.Slots.FirstOrDefault(t => t.LevelData.level_number == _dataManager.CurrentLevel.level_number);
 
             currentSlot.SetCurrent();

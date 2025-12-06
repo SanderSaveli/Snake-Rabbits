@@ -66,17 +66,12 @@ namespace SanderSaveli.Snake
 
         private void FillLevels(List<LevelSaveData> levelSaveDatas)
         {
-            Debug.Log("Fill levels ");
             if (levelSaveDatas == null || levelSaveDatas.Count == 0)
             {
-                Debug.LogWarning("Empty Level Save Data, Create new save");
                 levelSaveDatas = InitLevels();
                 _storageService.Save(Const.LEVEL_PROGRESS_PATH, levelSaveDatas);
             }
-            Debug.Log("levels Count " + levelSaveDatas.Count);
-            Debug.Log("ConfigsPaths: ");
             List<string> configs = LevelConfigLoader.GetAllConfigsPaths();
-            Debug.Log("Paths count: " + configs.Count);
             if (levelSaveDatas.Count != configs.Count)
             {
                 UnityEngine.Debug.LogWarning($"Discrepancy config count and save count. \n ConfigCount: {configs.Count} \n SaveCount: {levelSaveDatas.Count}");
@@ -88,7 +83,6 @@ namespace SanderSaveli.Snake
             _levels = levelSaveDatas;
             IsLoaded = true;
             OnLevelDataUpdated?.Invoke();
-            LogLevels();
         }
 
         private List<LevelSaveData> InitLevels()
@@ -150,7 +144,7 @@ namespace SanderSaveli.Snake
         private void LogLevels(bool _)
         {
             OnLevelDataUpdated?.Invoke();
-            LogLevels();
+            //LogLevels();
         }
     }
 }
