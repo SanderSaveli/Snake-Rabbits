@@ -7,20 +7,20 @@ namespace SanderSaveli.Snake
 {
     public class GameEndHandler : MonoBehaviour
     {
-        [SerializeField] private WinScreen _screen;
-
         private SignalBus _signalBus;
         private IScoreManager _scoreManager;
         private DataManager _dataManager;
         private LevelConfig _levelConfig;
+        private WinScreen _winScreen;
 
         [Inject]
-        public void Construct(SignalBus signalBus, IScoreManager scoreManager, DataManager dataManager, LevelConfig levelConfig)
+        public void Construct(SignalBus signalBus, IScoreManager scoreManager, DataManager dataManager, LevelConfig levelConfig, WinScreen winScreen)
         {
             _signalBus = signalBus;
             _scoreManager = scoreManager;
             _dataManager = dataManager;
             _levelConfig = levelConfig;
+            _winScreen = winScreen;
         }
 
         private void OnEnable()
@@ -46,7 +46,7 @@ namespace SanderSaveli.Snake
                 Debug.Log($"Level end data: \nStar Count: {levelSaveData.star_count} \n Score: {levelSaveData.max_score}");
                 CheckForNewRecord(levelSaveData);
                 _signalBus.Fire(new SignalInputOpenGameScreen(GameScreenType.Win));
-                _screen.Init(levelSaveData);
+                _winScreen.Init(levelSaveData);
             }
             else
             {

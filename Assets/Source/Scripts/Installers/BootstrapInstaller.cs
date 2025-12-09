@@ -11,6 +11,7 @@ namespace SanderSaveli.Snake
         [SerializeField] private DataManager _dataManager;
         [SerializeField] private LevelConfigTransitor _configTransistor;
         [SerializeField] private SnakeTextManager _snakeTextManager;
+        [SerializeField] private GameModeManager _gameModeManager;
 
         public override void InstallBindings()
         {
@@ -19,6 +20,7 @@ namespace SanderSaveli.Snake
             Container.Bind<DataManager>().FromInstance(_dataManager).AsSingle().NonLazy();
             Container.Bind<LevelConfigTransitor>().FromInstance(_configTransistor).AsSingle().NonLazy();
             Container.Bind<ITextManager>().FromInstance(_snakeTextManager).AsSingle().NonLazy();
+            Container.Bind<IGameModeManager>().FromInstance(_gameModeManager).AsSingle().NonLazy();
 
             #region Signals
             Container.DeclareSignal<SignalInputClosePopup>();
