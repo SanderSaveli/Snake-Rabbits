@@ -110,7 +110,7 @@ MonoBehaviour:
   - GameMode: 0
     Installer: {fileID: 952022289947426210, guid: 0d0afac7f01328d42b52ef2cb159b672, type: 3}
   - GameMode: 1
-    Installer: {fileID: 952022289947426210, guid: 1b78f66e24561c7468622b5fe469c065, type: 3}
+    Installer: {fileID: 4902387035114287000, guid: 1b78f66e24561c7468622b5fe469c065, type: 3}
 --- !u!1 &5695387827143815623
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,8 +1,6 @@
 using DG.Tweening;
 using SanderSaveli.UDK.UI;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace SanderSaveli.UDK
@@ -34,6 +32,8 @@ namespace SanderSaveli.UDK
         private void Awake()
         {
             _rectTransform = GetComponent<RectTransform>();
+            transform.localScale = Vector3.one;
+            _initialAnchoredPosition = _rectTransform.anchoredPosition;
         }
 
         public override void Hide(float delay, float duration, Action callback)
@@ -42,14 +42,15 @@ namespace SanderSaveli.UDK
 
             _rectTransform.DOAnchorPos(toPos, duration)
                 .SetEase(_exitEase)
-                .SetDelay(delay)
+                .SetUpdate(true)
+                .SetDelay(delay, false)
                 .OnComplete(() => callback?.Invoke());
         }
 
         public override void HideImmediately()
         {
             Vector2 toPos = GetOffsetPosition(_exitTo);
-            if(_rectTransform == null)
+            if (_rectTransform == null)
                 _rectTransform = GetComponent<RectTransform>();
             _rectTransform.anchoredPosition = toPos;
         }
@@ -66,8 +67,11 @@ namespace SanderSaveli.UDK
 
             _rectTransform.DOAnchorPos(_initialAnchoredPosition, duration)
                 .SetEase(_enterEase)
-                .SetDelay(delay)
+                .SetUpdate(true)
+                .SetDelay(delay, false)
                 .OnComplete(() => callback?.Invoke());
+
+            Debug.Log("Show!!");
         }
 
         public override void ShowImmediately()

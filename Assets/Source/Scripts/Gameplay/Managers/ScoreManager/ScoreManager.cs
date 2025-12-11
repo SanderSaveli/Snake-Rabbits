@@ -5,9 +5,9 @@ namespace SanderSaveli.Snake
 {
     public class ScoreManager : MonoBehaviour, IScoreManager
     {
-        public int Score { get; private set; }
+        public int Score { get; protected set; }
 
-        private SignalBus _signalBus;
+        protected SignalBus _signalBus;
 
         [Inject]
         public void Construct(SignalBus signalBus)
@@ -25,7 +25,7 @@ namespace SanderSaveli.Snake
             _signalBus.Unsubscribe<SignalAddScore>(HandleAddScore);
         }
 
-        private void HandleAddScore(SignalAddScore ctx)
+        protected void HandleAddScore(SignalAddScore ctx)
         {
             Score += ctx.Score;
             _signalBus.Fire(new SignalScoreChanged(Score, ctx.Score));

@@ -14,7 +14,7 @@ namespace SanderSaveli.Snake
             public GameModeInstaller Installer;
         }
 
-        public GameMode GameMode { get; set; }
+        public GameMode GameMode { get => GameMode.Arcade; set => throw new Exception("Debug mode"); }
         [SerializeField] private List<GameModePair> _gameModes = new List<GameModePair>();
 
         public GameModeInstaller GetActualInstallerPrefab() =>

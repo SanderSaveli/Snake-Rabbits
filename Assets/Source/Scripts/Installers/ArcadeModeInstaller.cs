@@ -1,24 +1,23 @@
 using UnityEngine;
-using Zenject;
 
 namespace SanderSaveli.Snake
 {
     public class ArcadeModeInstaller : GameModeInstaller
     {
-        [SerializeField] private GraficConfig _graicConfig;
-        [SerializeField] private GameplayConfig _gameplayConfig;
-        [SerializeField] private LevelConfig _levelConfig;
+        [SerializeField] private ConfigProvider _configProvider;
 
-        [SerializeField] private ScoreManager _scoreManager;
-
+        [SerializeField] private ArcadeHealthManager _arcadeHealthManager;
+        [SerializeField] private ArcadeScoreManager _scoreManager;
 
         public override void InstallBindings()
         {
-            _container.Bind<GameplayConfig>().FromInstance(_gameplayConfig).AsSingle().NonLazy();
-            _container.Bind<GraficConfig>().FromInstance(_graicConfig).AsSingle().NonLazy();
-            _container.Bind<LevelConfig>().FromInstance(_levelConfig).AsSingle().NonLazy();
+            _container.Inject(_configProvider);
+            _container.Bind<GameplayConfig>().FromInstance(_configProvider.GameplayConfig).AsSingle().NonLazy();
+            _container.Bind<GraficConfig>().FromInstance(_configProvider.GraficConfig).AsSingle().NonLazy();
+            _container.Bind<LevelConfig>().FromInstance(_configProvider.LevelConfig).AsSingle().NonLazy();
 
             _container.Bind<IScoreManager>().FromInstance(_scoreManager).AsSingle().NonLazy();
+            _container.Bind<IHealthManager>().FromInstance(_arcadeHealthManager).AsSingle().NonLazy();
         }
     }
 }
